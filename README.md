@@ -28,19 +28,7 @@ To build a **modular financial data platform** that takes raw equities, options,
 
 📂 Project Layout
 
-etl/        # ingestion scripts (CSV/API → Parquet)
-
-models/     # transforms & features
-
-docs/       # architecture diagrams, notes
-
-tests/      # schema/data tests
-
-lake/       # raw parquet data lake
-
-mart/       # analytics-ready outputs
-
-raw/        # input CSVs for testing
+![Project layout](https://github.com/user-attachments/assets/2691b0fb-c9b9-459b-bf33-da1abed1068e)
 
 ---
 
@@ -48,46 +36,26 @@ raw/        # input CSVs for testing
 
 1. Clone the repo:
 
-    git clone https://github.com/SI944-byte/finance-data-os.git
-    cd finance-data-os
+![Quick start](https://github.com/user-attachments/assets/8b24e3aa-068f-4593-b686-18a2f211aa1c)
 
-2. Set up environment:
+2. Set up virtual environment:
 
-    python -m venv .venv
-
-    # Windows
-    .venv\Scripts\activate.bat
-
-    # Mac/Linux
-    source .venv/bin/activate
+![virtual environment](https://github.com/user-attachments/assets/95db276c-beb6-4d2b-8c8d-b4ed2e97638d)
 
 3. Install Dependencies:
 
-    pip install -r requirements.txt
+![dependencies](https://github.com/user-attachments/assets/e0d7ee6f-f569-47d3-b2a3-0a29af006dbd)
 
 4. Run the notebook:
 
-    jupyter notebook Finance_Data_OS_Week1_Notebook.ipynb
+![Jupyter notebook](https://github.com/user-attachments/assets/ec927724-718d-41d2-91fc-b6e48124e0f2)
 
 ---
 
 📅 Roadmap
 
-  Ingest OHLCV → Parquet (complete)
-  
-  Schema validation with Pandera (complete)
-  
-  Power BI dashboard (prototype) (complete)
-  
-  Add macroeconomic data
-  
-  Feature store v1
-  
-  Options Greeks & Risk Cockpit
-  
-  Signal research & backtesting
-  
-  API + lightweight UI
+![roadmap](https://github.com/user-attachments/assets/a7ece15d-08a0-4eab-b8c1-d1b205c003dc)
+
 
   ---
 
