@@ -9,6 +9,7 @@
 ---
 
 ## 🚀 Project Goal
+
 To build a **modular financial data platform** that takes raw equities, options, and macroeconomic datasets and transforms them into analytics-ready features for trading and investment research.
 
 ---
@@ -97,11 +98,13 @@ raw/        # input CSVs for testing
 ---
 
 🤝 Contributing
+
 This is an open project for learning and sharing best practices in data engineering for financial markets.
 Suggestions, issues, and PRs are welcome.
 
 ---
 
 📜 License
+
 MIT License — see LICENSE for details.
 
