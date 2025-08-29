@@ -28,7 +28,7 @@ To build a **modular financial data platform** that takes raw equities, options,
 
 📂 Project Layout
 
-![Project layout](https://github.com/user-attachments/assets/2691b0fb-c9b9-459b-bf33-da1abed1068e)
+![Project layout](https://github.com/user-attachments/assets/05c9f00b-b75e-4d76-99a0-990fe388828f)
 
 ---
 
@@ -36,28 +36,27 @@ To build a **modular financial data platform** that takes raw equities, options,
 
 1. Clone the repo:
 
-![Quick start](https://github.com/user-attachments/assets/8b24e3aa-068f-4593-b686-18a2f211aa1c)
+![Quick start](https://github.com/user-attachments/assets/9c55d018-1f03-4d41-94c7-22eef2cbe481)
 
 2. Set up virtual environment:
 
-![virtual environment](https://github.com/user-attachments/assets/95db276c-beb6-4d2b-8c8d-b4ed2e97638d)
+![virtual environment](https://github.com/user-attachments/assets/6e670fa6-0e35-4667-8baf-138b5d87363d)
 
 3. Install Dependencies:
 
-![dependencies](https://github.com/user-attachments/assets/e0d7ee6f-f569-47d3-b2a3-0a29af006dbd)
+![dependencies](https://github.com/user-attachments/assets/6fb5db89-88ed-459d-a833-ef7797e57a54)
 
 4. Run the notebook:
 
-![Jupyter notebook](https://github.com/user-attachments/assets/ec927724-718d-41d2-91fc-b6e48124e0f2)
+![Jupyter notebook](https://github.com/user-attachments/assets/8ffd40a2-ec9d-4452-ac9a-efad5450b042)
 
 ---
 
 📅 Roadmap
 
-![roadmap](https://github.com/user-attachments/assets/a7ece15d-08a0-4eab-b8c1-d1b205c003dc)
+![roadmap](https://github.com/user-attachments/assets/87fd6d22-4737-4d7f-bb6a-16f93dfa9187)
 
-
-  ---
+---
 
 🖼️ Example Output
 
