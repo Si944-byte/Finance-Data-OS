@@ -28,11 +28,17 @@ To build a **modular financial data platform** that takes raw equities, options,
 📂 Project Layout
 
 etl/        # ingestion scripts (CSV/API → Parquet)
+
 models/     # transforms & features
+
 docs/       # architecture diagrams, notes
+
 tests/      # schema/data tests
+
 lake/       # raw parquet data lake
+
 mart/       # analytics-ready outputs
+
 raw/        # input CSVs for testing
 
 ---
