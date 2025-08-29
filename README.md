@@ -71,13 +71,21 @@ raw/        # input CSVs for testing
 ---
 
 📅 Roadmap
+
   Ingest OHLCV → Parquet (complete)
+  
   Schema validation with Pandera (complete)
+  
   Power BI dashboard (prototype) (complete)
+  
   Add macroeconomic data
+  
   Feature store v1
+  
   Options Greeks & Risk Cockpit
+  
   Signal research & backtesting
+  
   API + lightweight UI
 
   ---
