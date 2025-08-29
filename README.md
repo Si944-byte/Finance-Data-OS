@@ -91,6 +91,7 @@ raw/        # input CSVs for testing
   ---
 
 🖼️ Example Output
+
 ![Screenshot 2025-08-28 194355](https://github.com/user-attachments/assets/99ec77f1-4f78-4d5a-9c43-0d968fe5a17e)
 
 ---
