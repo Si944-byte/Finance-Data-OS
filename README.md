@@ -16,13 +16,7 @@ To build a **modular financial data platform** that takes raw equities, options,
 
 ## 🏗️ Architecture (Phase 1)
 
-    flowchart LR
-      RAW[raw/*.csv (starter: AAPL_daily.csv)] --> ETL[etl/ingest_ohlcv.py]
-      ETL --> LAKE[(lake/ohlcv as Parquet)]
-      LAKE --> VALIDATE[Pandera Schema Validation]
-      VALIDATE --> FEATURES[Feature Engineering]
-      FEATURES --> MART[(mart/ohlcv_features.parquet)]
-      MART --> BI[Power BI Dashboard]
+![Flowchart](https://github.com/user-attachments/assets/9b7a24d8-e616-46a8-937c-0190c9efb4ed)
 
 ---
 
