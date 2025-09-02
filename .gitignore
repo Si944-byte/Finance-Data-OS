@@ -1,0 +1,15 @@
+# data & artifacts
+raw/
+lake/
+mart/
+*.pbix
+
+# notebooks junk
+.ipynb_checkpoints/
+
+# virtual env
+.venv/
+
+# OS/editor
+.DS_Store
+Thumbs.db
