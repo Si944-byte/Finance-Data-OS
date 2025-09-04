@@ -12,8 +12,8 @@
 
 To build a **modular financial data platform** that takes raw equities, options, and macroeconomic datasets and transforms them into analytics-ready features for trading and investment research.
 
----
 
+---
 ## 🏗️ Architecture (Phase 1)
 
 ![Flowchart](https://github.com/user-attachments/assets/9b7a24d8-e616-46a8-937c-0190c9efb4ed)
@@ -57,6 +57,15 @@ To build a **modular financial data platform** that takes raw equities, options,
 ![Screenshot 2025-08-28 194355](https://github.com/user-attachments/assets/99ec77f1-4f78-4d5a-9c43-0d968fe5a17e)
 
 ---
+## 🚢 Week 2 – Multi-Ticker Ingest & Finance Chart
+
+- Implemented multi-ticker ingest (AAPL, MSFT, TSLA).  
+- Partitioned Parquet output with Pandera schema validation.  
+- Built Power BI visualization: Closing Price vs 10-day SMA + Volume bars.  
+- Added dynamic chart title and pro formatting.
+
+![Week 2 Chart](artifacts/week2/chart.png)
+
 
 🤝 Contributing
 
