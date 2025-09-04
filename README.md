@@ -90,9 +90,12 @@ Week 3 – Expanding History & Feature Store (🚧 in progress)
 ---
 
 📝 Build Logs
+
 Build Log – Week 1
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk1
 
 Build Log – Week 2
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk2
 
 ---
 
