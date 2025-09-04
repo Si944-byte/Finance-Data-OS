@@ -1,10 +1,9 @@
 # Finance Data OS
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
-![Status](https://img.shields.io/badge/status-active-success.svg)
-
-> **An end-to-end big data system for financial markets**: ingest raw market data, store efficiently in Parquet, validate with Pandera, engineer features, and visualize in Power BI dashboards.
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)  
+![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)  
+![Status](https://img.shields.io/badge/status-active-brightgreen.svg)  
+![GitHub stars](https://img.shields.io/github/stars/Si944-byte/finance-data-os?style=social) 
 
 ---
 
@@ -22,7 +21,50 @@ To build a **modular financial data platform** that takes raw equities, options,
 
 📂 Project Layout
 
-![Project layout](https://github.com/user-attachments/assets/05c9f00b-b75e-4d76-99a0-990fe388828f)
+docs/       # architecture diagrams, notes
+artifacts/  # Power BI files, exported charts
+Build Logs/ # Weekly build logs
+notebooks/  # Jupyter notebooks (Week 1, Week 2, …)
+
+---
+
+🛣 Project Roadmap
+
+This project is built and shipped in weekly artifacts. Each week delivers a small but meaningful piece of the pipeline.
+
+Week 1 – Single-Ticker Prototype ✅
+
+  - Ingest raw AAPL daily CSV → Parquet
+
+  - Pandera validation + SMA10
+
+  - First Power BI chart (Close vs SMA10)
+
+Week 2 – Multi-Ticker Ingest & Finance Chart ✅
+
+  - Expanded pipeline to handle multiple tickers (AAPL, MSFT, TSLA)
+
+  - Partitioned Parquet outputs
+
+  - Feature engineering (SMA10)
+
+  - Power BI dashboard with:
+
+  - Closing Price vs SMA lines
+
+  - Volume bars on secondary axis
+
+  - Dynamic chart title linked to slicer
+
+  - Clean finance-style formatting
+
+Week 3 – Expanding History & Feature Store (🚧 in progress)
+
+  - Ingest 5 years of daily data per ticker
+
+  - Extend feature engineering
+
+  - Ship Feature Mart v2
 
 ---
 
@@ -44,30 +86,16 @@ To build a **modular financial data platform** that takes raw equities, options,
 
 ![Jupyter notebook](https://github.com/user-attachments/assets/8ffd40a2-ec9d-4452-ac9a-efad5450b042)
 
----
-
-📅 Roadmap
-
-## 📌 Project Roadmap
-
-This project is being built and shipped in **weekly artifacts**. Each week delivers a small but meaningful piece of the Finance Data OS pipeline — from ingestion to validation, feature engineering, and visualization.  
-
-- [Week 1 – Single-Ticker Prototype]
-
-![Screenshot 2025-08-28 194355](https://github.com/user-attachments/assets/3e774390-50fd-492a-907b-12c163b7c894)
-
-  *Built the initial pipeline for a single ticker (AAPL): ingest raw CSV → Parquet, validate with Pandera, and create a first Power BI chart.*  
-
-- [Week 2 – Multi-Ticker Ingest & Finance Chart]
-
-![MSFT](https://github.com/user-attachments/assets/740f2c6a-c81d-43c9-9978-0b5a4e48e71e)
-
-  *Expanded pipeline to multiple tickers (AAPL, MSFT, TSLA), partitioned Parquet lake, validated schema, engineered SMA10 + returns, and built a professional Power BI dashboard (Close vs SMA with Volume bars).*  
-
-- Week 3 – Expanding History & Feature Store (🚧 in progress)  
-  *Planned: ingest 5 years of daily data per ticker, extend feature engineering, and ship Feature Mart v2.*  
 
 ---
+
+📝 Build Logs
+Build Log – Week 1
+
+Build Log – Week 2
+
+---
+
 ## 🚢 Week 2 – Multi-Ticker Ingest & Finance Chart
 
 This week’s artifact expands the Finance Data OS pipeline to handle **multiple tickers (AAPL, MSFT, TSLA)** and deliver a professional-grade visualization.
@@ -82,17 +110,17 @@ This week’s artifact expands the Finance Data OS pipeline to handle **multiple
   - Dynamic chart title linked to ticker slicer  
   - Clean, finance-style formatting (line labels, neutral bars, USD + M units)  
 
-### 📊 Example Output
-
-![TSLA](https://github.com/user-attachments/assets/7425391e-47fc-4b47-acfe-91a0d8a9c100)
-
 ### 🗂️ Artifacts
 
-- `Finance_Data_OS_Week2.pbix` → Power BI dashboard file (in repo files)
+Finance_Data_OS_Week2.pbix
+ → Power BI dashboard
+
+ 
+- Example output charts are shown in artifacts/week2/:
+  
+![TSLA](https://github.com/user-attachments/assets/7425391e-47fc-4b47-acfe-91a0d8a9c100)
 
 ---
-
-
 
 🤝 Contributing
 
