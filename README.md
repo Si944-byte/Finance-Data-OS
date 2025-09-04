@@ -68,12 +68,6 @@ This project is being built and shipped in **weekly artifacts**. Each week deliv
   *Planned: ingest 5 years of daily data per ticker, extend feature engineering, and ship Feature Mart v2.*  
 
 ---
-
-🖼️ Example Output
-
-![Screenshot 2025-08-28 194355](https://github.com/user-attachments/assets/99ec77f1-4f78-4d5a-9c43-0d968fe5a17e)
-
----
 ## 🚢 Week 2 – Multi-Ticker Ingest & Finance Chart
 
 This week’s artifact expands the Finance Data OS pipeline to handle **multiple tickers (AAPL, MSFT, TSLA)** and deliver a professional-grade visualization.
