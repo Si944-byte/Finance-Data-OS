@@ -15,7 +15,7 @@ To build a **modular financial data platform** that takes raw equities, options,
 ---
 ## 🏗️ Architecture (Phase 1)
 
-https://github.com/Si944-byte/Finance-Data-OS/blob/main/docs/img/Untitled%20diagram%20_%20Mermaid%20Chart-2025-09-04-222054.png
+<img width="3840" height="275" alt="Untitled diagram _ Mermaid Chart-2025-09-04-222054" src="https://github.com/user-attachments/assets/1f4e8c9c-11aa-4ab3-9618-58c901a8ec2b" />
 
 ---
 
