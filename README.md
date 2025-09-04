@@ -59,15 +59,28 @@ To build a **modular financial data platform** that takes raw equities, options,
 ---
 ## 🚢 Week 2 – Multi-Ticker Ingest & Finance Chart
 
-- Implemented multi-ticker ingest (AAPL, MSFT, TSLA).  
-- Partitioned Parquet output with Pandera schema validation.  
-- Built Power BI visualization: Closing Price vs 10-day SMA + Volume bars.  
-- Added dynamic chart title and pro formatting.
+This week’s artifact expands the Finance Data OS pipeline to handle **multiple tickers (AAPL, MSFT, TSLA)** and deliver a professional-grade visualization.
 
+### ✅ What’s New
+- **Multi-ticker ingest** with partitioned Parquet output  
+- **Pandera schema validation** applied at the data lake layer  
+- **Feature engineering**: 10-day Simple Moving Average (SMA10)  
+- **Power BI dashboard** with:
+  - Closing Price vs 10-day SMA lines  
+  - Volume bars on secondary axis  
+  - Dynamic chart title linked to ticker slicer  
+  - Clean, finance-style formatting (line labels, neutral bars, USD + M units)  
 
-![TSLA](https://github.com/user-attachments/assets/2dce3152-070e-4a42-82ff-9b6a222d6367)
-![MSFT](https://github.com/user-attachments/assets/a662f3bb-2918-4ec5-9f0d-ccb1f7bd9c53)
-![AAPL](https://github.com/user-attachments/assets/c80bd6bb-944f-4c3f-b1b2-7b7c4e0d91ae)
+### 📊 Example Output
+
+![TSLA](https://github.com/user-attachments/assets/7425391e-47fc-4b47-acfe-91a0d8a9c100)
+
+### 🗂️ Artifacts
+
+- `Finance_Data_OS_Week2.pbix` → Power BI dashboard file (in repo files)
+
+---
+
 
 
 🤝 Contributing
