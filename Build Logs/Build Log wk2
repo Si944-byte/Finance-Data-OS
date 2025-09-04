@@ -1,31 +1,3 @@
-🚢 Build Log — Week 1
-
-This week I shipped the first artifact of my Finance Data OS project.
-
-💡 The goal: build an end-to-end data system for financial markets that I can grow from data analyst-level dashboards → data engineer-level pipelines → data scientist-level research.
-
-Here’s what I accomplished in Week 1:
-
-✅ Built a Jupyter notebook that ingests raw CSVs of stock prices (AAPL to start)
-
-✅ Wrote them to Parquet, partitioned by ticker & year (data-lake style)
-
-✅ Added Pandera schema validation for data quality checks
-
-✅ Engineered first features (Close, SMA10)
-
-✅ Connected the output to Power BI and built a simple prototype dashboard
-
-Next up (Week 2)
-
-Ingest multiple tickers instead of one CSV
-
-Expand the dashboard with a ticker slicer
-
-Document the system with architecture diagrams
-
----
-
 🛠️ Build Log – Week 2
 
 Goal: Expand the Finance Data OS from single-ticker to multi-ticker ingest, add schema validation, and ship a professional Power BI chart.
