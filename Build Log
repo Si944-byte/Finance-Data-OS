@@ -23,3 +23,83 @@ Ingest multiple tickers instead of one CSV
 Expand the dashboard with a ticker slicer
 
 Document the system with architecture diagrams
+
+---
+
+🛠️ Build Log – Week 2
+
+Goal: Expand the Finance Data OS from single-ticker to multi-ticker ingest, add schema validation, and ship a professional Power BI chart.
+
+Day 1 – Multi-Ticker Setup
+
+Defined ticker list: ["AAPL", "MSFT", "TSLA"].
+
+Built read_csv_to_df() function to loop through tickers.
+
+Validated ingestion works for multiple CSVs.
+
+✅ Learned: writing reusable ingestion functions is much cleaner than copy/pasting.
+
+Day 2 – Partitioned Parquet
+
+Implemented partitioning by ticker and year.
+
+Verified directory structure:
+
+lake/ohlcv/
+  ├── ticker=AAPL/year=2024/
+  ├── ticker=MSFT/year=2024/
+  └── ticker=TSLA/year=2024/
+
+
+✅ Learned: partitioning early will make scaling to 5+ years easier.
+
+Day 3 – Schema Validation with Pandera
+
+Created OHLCVSchema with Pandera.
+
+Tested schema validation on sample parquet files.
+
+Fixed issue with missing Ticker field in schema.
+
+✅ Learned: schema validation gives confidence in downstream features.
+
+Day 4 – Feature Engineering (Mart)
+
+Combined parquet files into a single mart file.
+
+Added 10-day SMA (SMA10) and daily returns (Return1).
+
+Saved mart/ohlcv_features.parquet for Power BI.
+
+✅ Learned: groupby().transform() is a powerful way to add rolling features.
+
+Day 5 – Power BI Dashboard
+
+Imported mart parquet into Power BI.
+
+Built combo chart: Closing Price vs SMA lines + Volume bars.
+
+Styled chart:
+
+Dynamic title linked to slicer.
+
+USD + M axis labels.
+
+Neutral volume bars, colored SMA + Close lines.
+
+Added line labels to remove legend clutter.
+
+✅ Learned: finance-style formatting requires attention to both clarity and accuracy.
+
+Week 2 Summary
+
+Shipped: multi-ticker ingest, validated lake, mart with SMA + returns, and Power BI visualization.
+
+Repo updated with:
+
+/artifacts/week2/Finance_Data_OS_Week2.pbix
+
+chart.png (example visualization)
+
+README section for Week 2
