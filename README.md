@@ -48,7 +48,22 @@ To build a **modular financial data platform** that takes raw equities, options,
 
 📅 Roadmap
 
-![roadmap](https://github.com/user-attachments/assets/87fd6d22-4737-4d7f-bb6a-16f93dfa9187)
+## 📌 Project Roadmap
+
+This project is being built and shipped in **weekly artifacts**. Each week delivers a small but meaningful piece of the Finance Data OS pipeline — from ingestion to validation, feature engineering, and visualization.  
+
+- [Week 1 – Single-Ticker Prototype]
+
+![Screenshot 2025-08-28 194355](https://github.com/user-attachments/assets/3e774390-50fd-492a-907b-12c163b7c894)
+  *Built the initial pipeline for a single ticker (AAPL): ingest raw CSV → Parquet, validate with Pandera, and create a first Power BI chart.*  
+
+- [Week 2 – Multi-Ticker Ingest & Finance Chart]
+
+![MSFT](https://github.com/user-attachments/assets/740f2c6a-c81d-43c9-9978-0b5a4e48e71e)
+  *Expanded pipeline to multiple tickers (AAPL, MSFT, TSLA), partitioned Parquet lake, validated schema, engineered SMA10 + returns, and built a professional Power BI dashboard (Close vs SMA with Volume bars).*  
+
+- Week 3 – Expanding History & Feature Store (🚧 in progress)  
+  *Planned: ingest 5 years of daily data per ticker, extend feature engineering, and ship Feature Mart v2.*  
 
 ---
 
