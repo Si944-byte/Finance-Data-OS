@@ -114,7 +114,22 @@ This week’s artifact expands the Finance Data OS pipeline to handle **multiple
   - Closing Price vs 10-day SMA lines  
   - Volume bars on secondary axis  
   - Dynamic chart title linked to ticker slicer  
-  - Clean, finance-style formatting (line labels, neutral bars, USD + M units)  
+  - Clean, finance-style formatting (line labels, neutral bars, USD + M units)
+ 
+---
+
+### 🧠 What I Learned
+
+**Week 1 – Single-Ticker Prototype**  
+- Learned what a **Parquet file** is: a columnar storage format optimized for analytics.  
+- Unlike CSV, Parquet is **compressed, faster to query, and schema-aware**, which makes it essential when dealing with **large amounts of financial data**.  
+- Saw firsthand how partitioned Parquet reduces storage size and improves performance when scaling beyond one ticker.  
+
+**Week 2 – Multi-Ticker Ingest & Finance Chart**  
+- Learned how to extend the pipeline to **multiple tickers** and why partitioning by `ticker` and `year` is critical for efficient querying.  
+- Discovered how **Pandera schema validation** enforces data quality rules before the data moves downstream — preventing “bad data” from entering the feature store.  
+- Understood how to compute **technical indicators** like SMA (Simple Moving Average) and **returns**, which are core to financial analysis.  
+- Improved skills in **Power BI visualization**: building combo charts, formatting axes, and designing finance-ready dashboards that balance clarity and detail.  
 
 ### 🗂️ Artifacts
 
