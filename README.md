@@ -64,7 +64,10 @@ To build a **modular financial data platform** that takes raw equities, options,
 - Built Power BI visualization: Closing Price vs 10-day SMA + Volume bars.  
 - Added dynamic chart title and pro formatting.
 
-![Week 2 Chart](artifacts/week2/chart.png)
+
+![TSLA](https://github.com/user-attachments/assets/2dce3152-070e-4a42-82ff-9b6a222d6367)
+![MSFT](https://github.com/user-attachments/assets/a662f3bb-2918-4ec5-9f0d-ccb1f7bd9c53)
+![AAPL](https://github.com/user-attachments/assets/c80bd6bb-944f-4c3f-b1b2-7b7c4e0d91ae)
 
 
 🤝 Contributing
