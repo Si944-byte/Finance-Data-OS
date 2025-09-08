@@ -44,7 +44,7 @@ The focus this week was on **validating the data lake, repairing schema issues, 
 
 ---
 
-## 🔹 Day 4 — Exploratory Analysis (Charts)
+## 🔹 Day 4 — Exploratory Analysis (Charts) (Then used in PowerBI as part of dashboard)
 Using matplotlib, created quick visualizations for sanity check:
 
 1. **Normalized Close (AAPL, MSFT, TSLA, NVDA)**  
@@ -62,7 +62,7 @@ Using matplotlib, created quick visualizations for sanity check:
 5. **Close vs SMA10 (AAPL)**  
    - SMA smooths short-term fluctuations, trend captured well.  
 
-✅ All charts exported as `.png` for README inclusion.
+✅ All charts and dashboards exported as `.png` for README inclusion.
 
 ---
 
