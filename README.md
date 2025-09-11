@@ -61,13 +61,41 @@ Week 2 – Multi-Ticker Ingest & Finance Chart ✅
 
   - Clean finance-style formatting
 
-Week 3 – Expanding History & Feature Store (🚧 in progress)
+Week 3 – Expanding History & Feature Store ✅
 
-  - Ingest 5 years of daily data per ticker
+  - Ingest 5+ years of daily OHLCV per ticker (AAPL, MSFT, NVDA, TSLA) via yfinance(auto_adjust=True).
 
-  - Extend feature engineering
+  - Write partitioned Parquet lake: lake/ohlcv/ticker=<T>/year=<YYYY>/<T>_<YYYY>.parquet.
 
-  - Ship Feature Mart v2
+  - Repair pass (idempotent): normalize/rename columns, coerce types, enforce ticker/year consistency.
+
+  - Lake validation: required columns, nulls, numeric types, duplicate (ticker,date), partition checks.
+
+  -  Feature engineering v2:
+
+    return1 (daily % return)
+
+    sma10 (10-day simple moving average)
+
+    vol20 (20-day rolling stdev of close)
+
+  - Ship feature_mart.parquet (single tidy table for BI/analytics).
+
+  - Power BI 3-page dashboard:
+
+    Price vs. SMA10 with KPI cards (Latest Close, Latest SMA10, Close vs SMA10 %).
+
+    Volatility & Distribution — daily return line, vol20 trend with reference lines, histogram of returns.
+
+    Overview/Compare — normalized close (start=1.0), summary table (Avg Return %, Vol, Cumulative Return %, Latest Close, CAGR %, Positive Day %), bar chart with conditional formatting.
+
+  - DAX measures: Avg Return %, Vol (stdev of return1), Positive Day %, Latest Close, Latest SMA10, Close vs SMA10 %, Cumulative Return %, CAGR %.
+
+  - Date table (DAX) and relationship to fact tables for robust time slicing.
+
+  - Notebook + build log: Week 3 .ipynb and documentation added for reproducibility.
+
+  (Week 4: optional signal prototypes—e.g., SMA crossovers with walk-forward tests—and scheduled refresh/CI.) (in progress)
 
 ---
 
