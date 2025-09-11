@@ -211,6 +211,11 @@ This week’s artifact scales the Finance Data OS pipeline to 5+ years of histor
 
 Week 3 Power BI Dashboards:
 
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week3/Finance-Data-OS-Week%203.pbix
+
+![Screenshot 2025-09-11 132333](https://github.com/user-attachments/assets/d21ff1a4-6d49-4de8-853f-7e4ef1681543)
+![Screenshot 2025-09-11 132105](https://github.com/user-attachments/assets/7152b57a-729a-48f9-af4a-4d50929332d1)
+![Screenshot 2025-09-11 132003](https://github.com/user-attachments/assets/8f38e7b6-0d10-429a-afdb-6e9b7666db0a)
 
 
 Exploratory Analysis (Charts) (Then used in PowerBI as part of dashboard)
