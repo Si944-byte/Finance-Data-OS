@@ -209,7 +209,7 @@ This week’s artifact scales the Finance Data OS pipeline to 5+ years of histor
 
 ### 🗂️ Artifacts (Week 3: current week)
 
-- Parquet Lake and Feature Mart: 
+- Parquet Lake and Feature Mart: https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week3/feature_mart.parquet
 
 - Week 3 Power BI Dashboards:
 
