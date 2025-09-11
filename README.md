@@ -27,7 +27,7 @@ artifacts/  # Power BI files, exported charts
 
 Build Logs/ # Weekly build logs
 
-notebooks/  # Jupyter notebooks (Week 1, Week 2, …)
+notebooks/  # Jupyter notebooks (Week 1, Week 2, Week 3…)
 
 ---
 
@@ -129,6 +129,7 @@ Build Log – Week 2
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk2
 
 Build Log - Week 3
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk3
 
 ---
 
