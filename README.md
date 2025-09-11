@@ -209,7 +209,37 @@ This week’s artifact scales the Finance Data OS pipeline to 5+ years of histor
 
 ### 🗂️ Artifacts (Week 3: current week)
 
+Week 3 Power BI Dashboards:
 
+
+
+Exploratory Analysis (Charts) (Then used in PowerBI as part of dashboard)
+Using matplotlib, created quick visualizations for sanity check:
+
+1. **Normalized Close (AAPL, MSFT, TSLA, NVDA)**  
+   - Highlights NVDA outperformance relative to peers.
+     
+![Normalized Close](https://github.com/user-attachments/assets/493a5365-309e-47ae-b74a-1363b1fba640)
+
+2. **Distribution of Daily Returns (AAPL)**  
+   - Bell-curve centered at 0, fat tails present.
+  
+![Daily returns](https://github.com/user-attachments/assets/a33598d7-2910-4106-a776-dc206a56b322)
+
+3. **Rolling Volatility (20-day, AAPL)**  
+   - Volatility clustering clearly visible.
+  
+![Rolling Volatility ](https://github.com/user-attachments/assets/d459e237-15c2-41fa-ad89-406df4be91d1)
+
+4. **Daily Return Time Series (AAPL)**  
+   - Sharp spikes during market stress periods.
+
+![Daily Return ](https://github.com/user-attachments/assets/13ec96af-a88d-4030-8c94-9c294346c04e)
+
+5. **Close vs SMA10 (AAPL)**  
+   - SMA smooths short-term fluctuations, trend captured well.
+  
+![Close vs SMA10](https://github.com/user-attachments/assets/5a0c6caa-8f97-41b5-b977-8839fb8ed218)
 
 ---
 
