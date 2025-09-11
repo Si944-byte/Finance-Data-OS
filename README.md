@@ -128,21 +128,50 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log
 Build Log – Week 2
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk2
 
+Build Log - Week 3
+
 ---
 
-## 🚢 Week 2 – Multi-Ticker Ingest & Finance Chart
+📈 Week 3 – Expanding History & Shipping the Feature Mart
 
-This week’s artifact expands the Finance Data OS pipeline to handle **multiple tickers (AAPL, MSFT, TSLA)** and deliver a professional-grade visualization.
+This week’s artifact scales the Finance Data OS pipeline to 5+ years of history for multiple tickers (AAPL, MSFT, NVDA, TSLA), hardens the data lake with validation + a repair pass, and ships a tidy feature mart that powers a 3-page Power BI dashboard.
 
-### ✅ What’s New
-- **Multi-ticker ingest** with partitioned Parquet output  
-- **Pandera schema validation** applied at the data lake layer  
-- **Feature engineering**: 10-day Simple Moving Average (SMA10)  
-- **Power BI dashboard** with:
-  - Closing Price vs 10-day SMA lines  
-  - Volume bars on secondary axis  
-  - Dynamic chart title linked to ticker slicer  
-  - Clean, finance-style formatting (line labels, neutral bars, USD + M units)
+✅ What’s New
+
+  - Long-horizon ingest (2019–2025) via yfinance(auto_adjust=True)
+    Close is already adjusted — no Adj_Close needed.
+
+  - Partitioned Parquet lake
+    lake/ohlcv/ticker=<T>/year=<YYYY>/<T>_<YYYY>.parquet
+
+  - Idempotent repair pass
+    Normalize/rename, coerce types, fill ticker, and trim rows to the folder’s ticker/year.
+
+  - Lake validation
+    Required columns, null checks, numeric types, duplicate (ticker,date), and partition consistency (file path vs. row values).
+
+  - Feature engineering v2 (saved as a single table)
+
+    return1 — daily % return
+    sma10 — 10-day simple moving average
+    vol20 — 20-day rolling stdev of close
+
+  - Feature Mart shipped → lake/feature_mart.parquet
+    (columns: date, ticker, close, return1, sma10, vol20)
+
+  - Power BI dashboard (3 pages)
+
+    1. Price vs SMA10 – KPI cards (Latest Close, Latest SMA10, Close vs SMA10 %), line chart of Close vs SMA10
+
+    2. Volatility & Distribution – Daily return line, vol20 trend with reference lines, histogram of daily returns
+
+    3. Overview / Compare – Normalized Close (start = 1.0), summary table (Avg Return %, Vol, Cumulative Return %, Latest Close, CAGR %, Positive Day %), bar chart with conditional formatting to highlight leaders
+
+  - DAX measures & Date table
+    Avg Return %, Vol (stdev of return1), Positive Day %, Latest Close, Latest SMA10, Close vs SMA10 %, Cumulative Return %, CAGR %, plus a proper Date table for robust time slicing.
+
+  - Design polish
+    Finance-style cards, consistent axes/units, subtle reference lines, and rule-based highlighting for outliers.
  
 ---
 
