@@ -158,6 +158,22 @@ This week’s artifact expands the Finance Data OS pipeline to handle **multiple
 - Discovered how **Pandera schema validation** enforces data quality rules before the data moves downstream — preventing “bad data” from entering the feature store.  
 - Understood how to compute **technical indicators** like SMA (Simple Moving Average) and **returns**, which are core to financial analysis.  
 - Improved skills in **Power BI visualization**: building combo charts, formatting axes, and designing finance-ready dashboards that balance clarity and detail. (really focused on cleaning up the charts this week)
+  
+**Week 3 – Expanding History & Feature Store**  
+- Adjusted vs. unadjusted prices: Using yfinance(auto_adjust=True) means the Close is already split/dividend‐adjusted, so there’s no need for an Adj_Close column. This removed a whole class of schema errors.
+- Idempotent “repair pass” pays off: A small, re-runnable step that re-coerces types, fills missing ticker, and trims rows to the folder’s ticker/year makes the lake reliable and easy to fix if something goes wrong.
+- Partition consistency matters: Validating that file paths (e.g., ticker=MSFT/year=2024) agree with row values (ticker and date.year) catches subtle mistakes early.
+- Rolling features need alignment guards: Rolling windows and % change can misalign indexes; explicitly resetting index and checking equal lengths avoids silent drift.
+- Cumulative Return vs. CAGR:
+    Cumulative Return % = total growth over the selected period (product of daily returns − 1).
+    CAGR % = the annualized growth rate across the same period, which makes different date ranges comparable.
+- Date table = better time intelligence: A proper DAX Date table with one-to-many relationships enables consistent slicers, % by year/month, and avoids filter ambiguity.
+- Power BI modeling tricks:
+    Dynamic titles with SELECTEDVALUE improve clarity.
+    Rule-based conditional formatting draws attention to outliers (e.g., highest Avg Return %).
+    Reference lines (e.g., 20% vol) and consistent axes make charts easier to read across tickers.
+- “Feature Mart” is a contract: Finalizing a tidy, validated feature_mart.parquet (date, ticker, close, return1, sma10, vol20) simplifies downstream analytics and BI.
+- Small design polish matters: Finance-style cards, subtle gridlines, neutral palette, and consistent units (%, USD) improve perceived quality without extra complexity.
 
 ---
 
