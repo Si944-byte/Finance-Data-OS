@@ -177,18 +177,9 @@ This week’s artifact expands the Finance Data OS pipeline to handle **multiple
 
 ---
 
-### 🗂️ Artifacts
+### 🗂️ Artifacts (Week 3: current week)
 
-Finance_Data_OS_Week2.pbix
- → Power BI dashboard
 
-https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week2/Finance-Data-OS-Week%202.pbix
-
-- Example output charts are shown in artifacts/week2/:
-  
- https://github.com/Si944-byte/Finance-Data-OS/tree/main/artifacts/week2 
-
- <img width="885" height="551" alt="image" src="https://github.com/user-attachments/assets/47934f98-3fb1-4bde-9e2d-79c4640da7bd" />
 
 ---
 
