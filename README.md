@@ -105,7 +105,7 @@ Week 4 – Signals, Backtest & 3-Page Power BI ✅
 
     - Write lake/signals_mart.parquet
 
-  -Implement long-only backtest (next-bar execution)
+  - Implement long-only backtest (next-bar execution)
 
     - position[t] = long_rule[t-1] → ret_strat = position * return1 → equity = (1+ret_strat).cumprod()
 
@@ -115,7 +115,7 @@ Week 4 – Signals, Backtest & 3-Page Power BI ✅
 
   - Power BI model (single-direction relationships, Date as time spine)
 
-    -Ingest full Windows paths to the three parquet sources for reliable refresh
+    - Ingest full Windows paths to the three parquet sources for reliable refresh
 
     - Tables: signals_mart, backtest_mart (per-ticker dailies), _summary, existing ohlcv_features, Date, Ticker
 
@@ -163,10 +163,11 @@ Build Log - Week 3
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk3
 
 Build Log - Week 4
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk4
 
 ---
 
-🗺️ Week 4 — What I built
+🗺️ Week 4 — What's New
 
 1) Make a “signals” dataset (when to be in or out)
 
@@ -304,46 +305,8 @@ Precomputing MAs/volatility and boolean rules in parquet keeps the report fast a
 
 ---
 
-### 🗂️ Artifacts (Week 3: current week)
+### 🗂️ Artifacts (Week 4: current week)
 
-- Parquet Lake and Feature Mart: https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week3/feature_mart.parquet
-
-- Week 3 Power BI Dashboards:
-
-    https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week3/Finance-Data-OS-Week%203.pbix
-
-    ![Screenshot 2025-09-11 132333](https://github.com/user-attachments/assets/d21ff1a4-6d49-4de8-853f-7e4ef1681543)
-    ![Screenshot 2025-09-11 132105](https://github.com/user-attachments/assets/7152b57a-729a-48f9-af4a-4d50929332d1)
-    ![Screenshot 2025-09-11 132003](https://github.com/user-attachments/assets/8f38e7b6-0d10-429a-afdb-6e9b7666db0a)
-
-
-- Exploratory Analysis (Charts) (Then used in PowerBI as part of dashboard)
-Using matplotlib, created quick visualizations for sanity check:
-
-1. **Normalized Close (AAPL, MSFT, TSLA, NVDA)**  
-   - Highlights NVDA outperformance relative to peers.
-     
-![Normalized Close](https://github.com/user-attachments/assets/493a5365-309e-47ae-b74a-1363b1fba640)
-
-2. **Distribution of Daily Returns (AAPL)**  
-   - Bell-curve centered at 0, fat tails present.
-  
-![Daily returns](https://github.com/user-attachments/assets/a33598d7-2910-4106-a776-dc206a56b322)
-
-3. **Rolling Volatility (20-day, AAPL)**  
-   - Volatility clustering clearly visible.
-  
-![Rolling Volatility ](https://github.com/user-attachments/assets/d459e237-15c2-41fa-ad89-406df4be91d1)
-
-4. **Daily Return Time Series (AAPL)**  
-   - Sharp spikes during market stress periods.
-
-![Daily Return ](https://github.com/user-attachments/assets/13ec96af-a88d-4030-8c94-9c294346c04e)
-
-5. **Close vs SMA10 (AAPL)**  
-   - SMA smooths short-term fluctuations, trend captured well.
-  
-![Close vs SMA10](https://github.com/user-attachments/assets/5a0c6caa-8f97-41b5-b977-8839fb8ed218)
 
 ---
 
