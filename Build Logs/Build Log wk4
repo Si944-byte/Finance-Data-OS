@@ -1,0 +1,142 @@
+Build Log — Week 4
+
+Goal: Add a signals mart, run a simple long-only backtest with next-bar execution, compute KPIs, and ship a 3-page Power BI dashboard.
+
+Day 0 — Prereqs / Paths
+
+Verified repo structure and created missing folders.
+
+Checked for Week 3 artifact: lake/feature_mart.parquet.
+
+Added a “path discovery” helper in the notebook to resolve full paths to lake/ on my machine.
+
+Confirmed write locations:
+
+lake/
+  feature_mart.parquet
+  signals_mart.parquet
+  backtest_mart/
+    AAPL.parquet
+    MSFT.parquet
+    NVDA.parquet
+    TSLA.parquet
+    _summary.parquet
+
+
+✅ Learned: baking path checks into the notebook prevents silent failures when running from a different working directory.
+
+Day 1 — Signals Mart
+
+Computed SMA50 (slow MA on close) and Vol20 (20-day rolling stdev of return1).
+
+Built rules:
+
+long_rule = (SMA10 ≥ SMA50) ∧ (Vol20 < threshold) — note: threshold tunable in notebook.
+
+exit_rule = (SMA10 < SMA50) ∨ (Vol20 ≥ threshold).
+
+Wrote lake/signals_mart.parquet with convenience ints long_rule_i, cross_up_i.
+
+Spot-checks: row counts match feature_mart; no nulls in new columns after initial warm-up periods.
+
+✅ Learned: computing all signals in one place (“signals mart”) keeps the BI model thin and fast.
+
+Day 2 — Backtest Engine
+
+Implemented next-bar execution:
+
+Position today = long_rule from yesterday (shifted by 1; no look-ahead).
+
+ret_strat = position * return1.
+
+equity = (1 + ret_strat).cumprod().
+
+dd = equity / equity.cummax() - 1.
+
+Saved per-ticker daily results to lake/backtest_mart/<TICKER>.parquet.
+
+Aggregated per-ticker KPIs (CAGR, Sharpe, Max DD, Win rate) to lake/backtest_mart/_summary.parquet.
+
+Sanity checks:
+
+Equity never < 0, Max DD ≤ 0.
+
+End equity ≈ product of (1 + ret_strat) per ticker.
+
+✅ Learned: “next-bar” logic + explicit ffill eliminates accidental look-ahead and makes results reproducible.
+
+Day 3 — Power BI Model & Relationships
+
+Ingested Parquet with full file paths (stable for refresh on Windows):
+
+…\lake\signals_mart.parquet
+
+…\lake\backtest_mart\_summary.parquet
+
+…\lake\backtest_mart\AAPL.parquet etc. (or folder import)
+
+Existing ohlcv_features and Date tables from Week 3.
+
+Relationships (single direction, Date as the hub):
+
+Date[Date] → signals_mart[date] (1:*).
+
+Date[Date] → backtest_mart[date] (1:*).
+
+Ticker[ticker] → [ticker] where applicable.
+
+Measures / formatting:
+
+Dynamic page title using selected ticker + slicer dates.
+
+Card formats standardized: CAGR % (1 dec), Sharpe (2 dec), Max DD % (1–2 dec, signed), Win rate % (1 dec).
+
+✅ Learned: keeping the Date table as the single time spine avoids bi-directional filters and weird totals.
+
+Day 4 — Visuals
+
+Page 1 — Signals: Closing Price vs SMA50 (50-day) with KPI cards (Latest Close, Latest SMA50, Close vs SMA50 %). Removed point-markers for buy/exit (too noisy); kept the narrative simple and clean.
+
+Page 2 — Backtest: Strategy Equity Curve, Distribution of Daily Returns, and a Monthly Return Heatmap (diverging scale centered at 0%).
+
+Page 3 — Summary: KPI table (CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %) + Normalized Close line chart and a bar chart with conditional formatting on Avg Return % (highlight NVDA/TSLA tier).
+
+✅ Learned: point markers for signals look cool in isolation but hurt readability at daily granularity—trend lines + KPIs tell the story better.
+
+Day 5 — Polish & Ship
+
+Consistent number formats across cards/tables.
+
+Added a Reset bookmark to clear slicers.
+
+Final QA: row counts, date coverage, relationships, tooltips, and slicer interactions.
+
+Wrote Week 4 README section + LinkedIn post draft.
+
+✅ Learned: a tiny amount of visual consistency work (formats, line widths, legends) makes the report feel “finished”.
+
+Bugs / Fixes
+
+Feature mart missing: Notebook raised [ERROR] Input not found: lake/feature_mart.parquet → reran Week 3 or pointed the notebook to the correct repo root with the path-discovery cell.
+
+Power BI Boolean aggregation error (MAX on Boolean): avoided aggregating logical columns directly in a line/column combo; either convert to 0/1 or remove markers. Settled on cleaner, marker-free price/MA visual.
+
+Full path ingestion: switched Parquet imports to explicit Windows paths to eliminate refresh prompts.
+
+Artifacts Shipped
+
+lake/signals_mart.parquet
+
+lake/backtest_mart/_summary.parquet
+
+lake/backtest_mart/<TICKER>.parquet (daily results)
+
+Power BI report with 3 pages (Signals, Backtest, Summary)
+
+Next Week (Week 5 draft)
+
+Portfolio composites (equal-weight; simple risk-aware)
+
+Parameter toggles (SMA/Vol windows) + scenario compare
+
+One-click refresh packaging & publish flow
