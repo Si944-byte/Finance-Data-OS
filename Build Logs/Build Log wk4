@@ -2,7 +2,7 @@ Build Log — Week 4
 
 Goal: Add a signals mart, run a simple long-only backtest with next-bar execution, compute KPIs, and ship a 3-page Power BI dashboard.
 
-Day 0 — Prereqs / Paths
+- Day 0 — Prereqs / Paths
 
 Verified repo structure and created missing folders.
 
@@ -25,7 +25,7 @@ lake/
 
 ✅ Learned: baking path checks into the notebook prevents silent failures when running from a different working directory.
 
-Day 1 — Signals Mart
+- Day 1 — Signals Mart
 
 Computed SMA50 (slow MA on close) and Vol20 (20-day rolling stdev of return1).
 
@@ -41,7 +41,7 @@ Spot-checks: row counts match feature_mart; no nulls in new columns after initia
 
 ✅ Learned: computing all signals in one place (“signals mart”) keeps the BI model thin and fast.
 
-Day 2 — Backtest Engine
+- Day 2 — Backtest Engine
 
 Implemented next-bar execution:
 
@@ -65,7 +65,7 @@ End equity ≈ product of (1 + ret_strat) per ticker.
 
 ✅ Learned: “next-bar” logic + explicit ffill eliminates accidental look-ahead and makes results reproducible.
 
-Day 3 — Power BI Model & Relationships
+- Day 3 — Power BI Model & Relationships
 
 Ingested Parquet with full file paths (stable for refresh on Windows):
 
@@ -93,7 +93,7 @@ Card formats standardized: CAGR % (1 dec), Sharpe (2 dec), Max DD % (1–2 dec, 
 
 ✅ Learned: keeping the Date table as the single time spine avoids bi-directional filters and weird totals.
 
-Day 4 — Visuals
+- Day 4 — Visuals
 
 Page 1 — Signals: Closing Price vs SMA50 (50-day) with KPI cards (Latest Close, Latest SMA50, Close vs SMA50 %). Removed point-markers for buy/exit (too noisy); kept the narrative simple and clean.
 
@@ -103,7 +103,7 @@ Page 3 — Summary: KPI table (CAGR, Sharpe, Max DD, Win rate, Positive Day %, L
 
 ✅ Learned: point markers for signals look cool in isolation but hurt readability at daily granularity—trend lines + KPIs tell the story better.
 
-Day 5 — Polish & Ship
+- Day 5 — Polish & Ship
 
 Consistent number formats across cards/tables.
 
