@@ -133,46 +133,99 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log
 
 ---
 
-📈 Week 3 – Expanding History & Shipping the Feature Mart
+🗺️ Week 4 — What I built
 
-This week’s artifact scales the Finance Data OS pipeline to 5+ years of history for multiple tickers (AAPL, MSFT, NVDA, TSLA), hardens the data lake with validation + a repair pass, and ships a tidy feature mart that powers a 3-page Power BI dashboard.
+1) Make a “signals” dataset (when to be in or out)
 
-✅ What’s New
+  SMA50: the average closing price over the last 50 days. It smooths the price line.
 
-  - Long-horizon ingest (2019–2025) via yfinance(auto_adjust=True)
-    Close is already adjusted — no Adj_Close needed.
+  Vol20: the typical day-to-day wiggle over the last 20 days (a basic volatility number).
 
-  - Partitioned Parquet lake
-    lake/ohlcv/ticker=<T>/year=<YYYY>/<T>_<YYYY>.parquet
+Rules
 
-  - Idempotent repair pass
-    Normalize/rename, coerce types, fill ticker, and trim rows to the folder’s ticker/year.
+  Go long (be in the stock) when the short average (SMA10) is above the long average (SMA50) and volatility is low.
 
-  - Lake validation
-    Required columns, null checks, numeric types, duplicate (ticker,date), and partition consistency (file path vs. row values).
+  Exit (be out) when SMA10 falls below SMA50 or volatility is high.
 
-  - Feature engineering v2 (saved as a single table)
+Save this table as a file: lake/signals_mart.parquet.
 
-    return1 — daily % return
-    sma10 — 10-day simple moving average
-    vol20 — 20-day rolling stdev of close
+Why: This gives Power BI a clean, ready-to-use table that says “buy” or “exit” each day.
 
-  - Feature Mart shipped → lake/feature_mart.parquet
-    (columns: date, ticker, close, return1, sma10, vol20)
+2) Do a simple backtest (see how that rule would have done)
 
-  - Power BI dashboard (3 pages)
+  “Next-day” rule: If yesterday said “go long,” we enter today. If yesterday said “exit,” we get out today. (Prevents cheating by using future info.)
 
-    1. Price vs SMA10 – KPI cards (Latest Close, Latest SMA10, Close vs SMA10 %), line chart of Close vs SMA10
+  Daily strategy return:
 
-    2. Volatility & Distribution – Daily return line, vol20 trend with reference lines, histogram of daily returns
+  If we’re in the position, it equals the stock’s daily return.
 
-    3. Overview / Compare – Normalized Close (start = 1.0), summary table (Avg Return %, Vol, Cumulative Return %, Latest Close, CAGR %, Positive Day %), bar chart with conditional formatting to highlight leaders
+  If we’re out, it’s zero.
 
-  - DAX measures & Date table
-    Avg Return %, Vol (stdev of return1), Positive Day %, Latest Close, Latest SMA10, Close vs SMA10 %, Cumulative Return %, CAGR %, plus a proper Date table for robust time slicing.
+  Equity curve: Start at $1.00 and grow it by the daily strategy returns to see how the account would have changed over time.
 
-  - Design polish
-    Finance-style cards, consistent axes/units, subtle reference lines, and rule-based highlighting for outliers.
+  Save results:
+
+  One file per ticker with daily equity etc.: lake/backtest_mart/<TICKER>.parquet
+
+  A summary table with key stats (KPIs): lake/backtest_mart/_summary.parquet
+
+  CAGR = average yearly growth
+
+  Sharpe = return compared to volatility (higher is better)
+
+  Max Drawdown = worst peak-to-valley drop (more negative is worse)
+
+  Win rate = % of up days while in the trade
+
+  Why: This shows if the rule adds value vs. buy-and-hold.
+
+3) Connect everything in Power BI
+
+  Import the three parquet files using the full Windows paths so refresh is reliable.
+
+  Tables in the model:
+
+  Date (drives time), Ticker (AAPL/MSFT/…), ohlcv_features (prices & features),
+
+  signals_mart (buy/exit info), backtest_mart (daily strategy equity), _summary (KPIs).
+
+  Use one-way relationships from Date (and Ticker) into the other tables. Date is the “spine.”
+
+  Why: Keeps filtering simple and avoids model glitches.
+
+4) Build the 3 report pages
+
+Page 1 — Signals
+
+  Line chart: Close price vs SMA50 (50-day).
+
+  KPI cards: Latest Close, Latest SMA50, Close vs SMA50 %.
+
+  Dynamic title: shows selected ticker + date range.
+
+Page 2 — Backtest
+
+  Equity curve (how $1 grew under the rule).
+  
+  Histogram of daily strategy returns.
+
+  Monthly return heatmap (which months/years were strong or weak).
+
+Page 3 — Summary
+
+  KPI table: CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %.
+
+  Normalized Close comparison (all tickers start at 1.0 to compare moves).
+
+  Bar chart of Avg Return % with conditional colors to highlight standouts.
+
+5) Final polish
+
+  Make numbers consistent (decimals, % signs), tidy legends and line thickness.
+
+  Add a “Reset” bookmark to clear slicers.
+
+  Quick QA pass: do cards, tables, and charts match the data?
  
 ---
 
@@ -203,7 +256,18 @@ This week’s artifact scales the Finance Data OS pipeline to 5+ years of histor
     Rule-based conditional formatting draws attention to outliers (e.g., highest Avg Return %).
     Reference lines (e.g., 20% vol) and consistent axes make charts easier to read across tickers.
 - “Feature Mart” is a contract: Finalizing a tidy, validated feature_mart.parquet (date, ticker, close, return1, sma10, vol20) simplifies downstream analytics and BI.
-- Small design polish matters: Finance-style cards, subtle gridlines, neutral palette, and consistent units (%, USD) improve perceived quality without extra complexity.
+- Small design polish matters: Finance-style cards, subtle gridlines, neutral palette, and consistent units (%, USD) improve perceived quality without extra compl
+
+**Week 4 – Signals, Backtest & 3-Page Power BI** 
+- Next-bar execution prevents look-ahead.
+Shifting signals by one day (position[t] = signal[t-1]) keeps the backtest honest and reproducible.
+- A dedicated Signals Mart simplifies BI.
+Precomputing MAs/volatility and boolean rules in parquet keeps the report fast and the DAX minimal.
+- Date is the hub. Using a single Date table with one-way filters into each fact table eliminates circular filters and odd totals.
+- KPIs you can trust. Simple, transparent formulas (CAGR from daily equity, Sharpe from daily mean/stdev, Max DD via running peak) + sanity checks (end equity ≈ product of returns) caught mistakes early.
+- Visual clarity beats clever markers. Scatter markers for every buy/exit look noisy at daily granularity; price + SMA lines with KPI cards tell the story better.
+- Operational detail matters. Importing parquet via full file paths on Windows made refresh reliable; consistent formatting (decimals, % signs) made the report feel “finished.”
+- Small UX touches help. Dynamic page titles (ticker + date range) and a Reset bookmark improve readability and exploration
 
 ---
 
