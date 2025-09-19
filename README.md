@@ -27,7 +27,7 @@ artifacts/  # Power BI files, exported charts
 
 Build Logs/ # Weekly build logs
 
-notebooks/  # Jupyter notebooks (Week 1, Week 2, Week 3…)
+notebooks/  # Jupyter notebooks (Week 1, Week 2, Week 3, Week 4,....)
 
 ---
 
@@ -305,6 +305,19 @@ Precomputing MAs/volatility and boolean rules in parquet keeps the report fast a
 ---
 
 ### 🗂️ Artifacts (Week 4: current week)
+
+lake/signals_mart.parquet — daily features + signals (sma10, sma50, vol20, long_rule, exit_rule, flags).
+
+lake/backtest_mart/AAPL.parquet
+
+lake/backtest_mart/MSFT.parquet
+
+lake/backtest_mart/NVDA.parquet
+
+lake/backtest_mart/TSLA.parquet — per-ticker daily equity/position/strategy returns.
+
+lake/backtest_mart/_summary.parquet — per-ticker KPIs (CAGR, Sharpe, Max DD, Win rate, etc)
+
 
 
 ---
