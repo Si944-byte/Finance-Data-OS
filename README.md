@@ -95,8 +95,39 @@ Week 3 – Expanding History & Feature Store ✅
 
   - Notebook + build log: Week 3 .ipynb and documentation added for reproducibility.
 
-  (Week 4: optional signal prototypes—e.g., SMA crossovers with walk-forward tests—and scheduled refresh/CI.) (in progress)
+Week 4 – Signals, Backtest & 3-Page Power BI ✅
 
+  - Build Signals Mart
+
+    - Compute sma50 and vol20 (20-day stdev of return1)
+
+    - Create rules: long_rule (sma10 ≥ sma50 & low-vol), exit_rule (sma10 < sma50 or high-vol)
+
+    - Write lake/signals_mart.parquet
+
+  -Implement long-only backtest (next-bar execution)
+
+    - position[t] = long_rule[t-1] → ret_strat = position * return1 → equity = (1+ret_strat).cumprod()
+
+    - Per-ticker daily outputs to lake/backtest_mart/<TICKER>.parquet
+
+    - KPI summary (CAGR, Sharpe, Max DD, Win rate) to lake/backtest_mart/_summary.parquet
+
+  - Power BI model (single-direction relationships, Date as time spine)
+
+    -Ingest full Windows paths to the three parquet sources for reliable refresh
+
+    - Tables: signals_mart, backtest_mart (per-ticker dailies), _summary, existing ohlcv_features, Date, Ticker
+
+  - Dashboards (3 pages)
+
+    - Signals: Closing Price vs SMA50 (50-day) + KPI cards (Latest Close, Latest SMA50, Close vs SMA50 %) and dynamic title
+
+    - Backtest: Strategy Equity Curve, Daily Return distribution, Monthly Return Heatmap
+
+    -Summary: KPI table (CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %), Normalized Close comparison, bar chart with conditional formatting     on Avg Return %
+
+  Polish: consistent number formats, legend/line weights, “Reset” bookmark, final QA
 ---
 
 ⚡ Quick Start (Follow along with me!)
@@ -113,7 +144,7 @@ Week 3 – Expanding History & Feature Store ✅
 
 ![dependencies](https://github.com/user-attachments/assets/6fb5db89-88ed-459d-a833-ef7797e57a54)
 
-4. Run the notebook:
+4. Run the notebooks:
 
 ![Jupyter notebook](https://github.com/user-attachments/assets/8ffd40a2-ec9d-4452-ac9a-efad5450b042)
 
@@ -130,6 +161,8 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log
 
 Build Log - Week 3
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk3
+
+Build Log - Week 4
 
 ---
 
