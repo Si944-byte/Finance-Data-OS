@@ -127,7 +127,6 @@ Week 4 – Signals, Backtest & 3-Page Power BI ✅
 
     - Summary: KPI table (CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %), Normalized Close comparison, bar chart with conditional                 formatting on Avg Return %
 
-  Polish: consistent number formats, legend/line weights, “Reset” bookmark, final QA
 ---
 
 ⚡ Quick Start (Follow along with me!)
