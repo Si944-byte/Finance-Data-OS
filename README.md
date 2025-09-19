@@ -318,7 +318,14 @@ lake/backtest_mart/TSLA.parquet — per-ticker daily equity/position/strategy re
 
 lake/backtest_mart/_summary.parquet — per-ticker KPIs (CAGR, Sharpe, Max DD, Win rate, etc)
 
+Power BI Dashboard: 
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week4/Finance-Data-OS-Week%204.pbix
 
+![Dashboard #1](https://github.com/user-attachments/assets/959a34f2-4d5d-4bd1-8ec6-13dbd1d76b5a)
+
+![Dashboard #2](https://github.com/user-attachments/assets/1bdff490-beee-4f36-9f0f-a38d17ffce64)
+
+![Dashboard #3](https://github.com/user-attachments/assets/18e7e505-e70a-4bf5-8408-eaee79709615)
 
 ---
 
