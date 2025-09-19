@@ -147,9 +147,9 @@ Rules
 
   Exit (be out) when SMA10 falls below SMA50 or volatility is high.
 
-Save this table as a file: lake/signals_mart.parquet.
+  Save this table as a file: lake/signals_mart.parquet.
 
-Why: This gives Power BI a clean, ready-to-use table that says “buy” or “exit” each day.
+  Why: This gives Power BI a clean, ready-to-use table that says “buy” or “exit” each day.
 
 2) Do a simple backtest (see how that rule would have done)
 
@@ -195,7 +195,7 @@ Why: This gives Power BI a clean, ready-to-use table that says “buy” or “e
 
 4) Build the 3 report pages
 
-Page 1 — Signals
+  Page 1 — Signals
 
   Line chart: Close price vs SMA50 (50-day).
 
@@ -203,7 +203,7 @@ Page 1 — Signals
 
   Dynamic title: shows selected ticker + date range.
 
-Page 2 — Backtest
+  Page 2 — Backtest
 
   Equity curve (how $1 grew under the rule).
   
@@ -211,7 +211,7 @@ Page 2 — Backtest
 
   Monthly return heatmap (which months/years were strong or weak).
 
-Page 3 — Summary
+  Page 3 — Summary
 
   KPI table: CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %.
 
