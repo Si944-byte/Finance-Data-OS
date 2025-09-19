@@ -87,7 +87,7 @@ Week 3 – Expanding History & Feature Store ✅
 
     Volatility & Distribution — daily return line, vol20 trend with reference lines, histogram of returns.
 
-    Overview/Compare — normalized close (start=1.0), summary table (Avg Return %, Vol, Cumulative Return %, Latest Close, CAGR %, Positive Day %), bar chart with conditional formatting.
+    Overview/Compare — normalized close (start=1.0), summary table (Avg Return %, Vol, Cumulative Return %, Latest Close, CAGR %, Positive Day %), bar chart with conditional       formatting.
 
   - DAX measures: Avg Return %, Vol (stdev of return1), Positive Day %, Latest Close, Latest SMA10, Close vs SMA10 %, Cumulative Return %, CAGR %.
 
@@ -125,7 +125,7 @@ Week 4 – Signals, Backtest & 3-Page Power BI ✅
 
     - Backtest: Strategy Equity Curve, Daily Return distribution, Monthly Return Heatmap
 
-    -Summary: KPI table (CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %), Normalized Close comparison, bar chart with conditional formatting     on Avg Return %
+    - Summary: KPI table (CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %), Normalized Close comparison, bar chart with conditional                 formatting on Avg Return %
 
   Polish: consistent number formats, legend/line weights, “Reset” bookmark, final QA
 ---
