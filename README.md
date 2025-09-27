@@ -223,11 +223,11 @@ How to reproduce:
 
   7. Run Sanity Checks (shape, columns, KPIs within tolerance).
 
-  8.In Power BI, connect to:
-   backtest_mart_v2\_summary.parquet
-   Folder backtest_mart_v2\ (per-ticker dailies)
-   signals_mart_v2.parquet
-   (Optional) tuning_mart.parquet
+  8. In Power BI, connect to:
+     backtest_mart_v2\_summary.parquet
+     Folder backtest_mart_v2\ (per-ticker dailies)
+     signals_mart_v2.parquet
+     (Optional) tuning_mart.parquet
 
   9. Confirm model relationships: Date[Date] → * single-direction, Ticker[ticker] → * single-direction to each mart.
 
@@ -246,6 +246,7 @@ Notes & assumptions:
   - Next-bar execution; per-side COST_BPS charged on both entry and exit
   - No dividends/fees/borrow modeled unless in source price; no slippage beyond fixed bps
   - Results are illustrative; use for research only
+  - 
 ---
 
 ### 🧠 What I Learned
@@ -324,14 +325,23 @@ Main issues this week (and how we solved them)
 
 ❌ DAX measures referring to non-ingested fields → ✅ measures rewritten to Week-5 fields only (e.g., ret_after_cost, close).
 
-❌ Normalized Close missing one ticker → ✅ check slicers/filters, ensure measure uses proper filter context, confirm Date–Ticker relationships.
 ---
 
-### 🗂️ Artifacts (Week 4: current week)
+### 🗂️ Artifacts (Week 5: current week)
 
 Power BI Dashboard: 
 
+Page 1:
+![Screenshot 2025-09-27 184914](https://github.com/user-attachments/assets/195f58aa-99eb-4362-873c-dcd42299d720)
 
+Page 2:
+![Screenshot 2025-09-27 184950](https://github.com/user-attachments/assets/c2e4a819-1f01-4491-8a9d-101e920785f1)
+
+Page 3: 
+![Screenshot 2025-09-27 185251](https://github.com/user-attachments/assets/bfc30030-28bb-43ef-8d4c-aa75d3734349)
+
+Page 4:
+![Screenshot 2025-09-27 191245](https://github.com/user-attachments/assets/6286041c-4040-4ed7-94f0-2aff1f49e51a)
 
 ---
 
