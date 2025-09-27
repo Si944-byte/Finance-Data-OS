@@ -1,0 +1,67 @@
+Theme: Costs, controls, tuning + Power BI model
+
+Dates: Mon–Fri (Week 5)
+
+Inputs
+
+lake/feature_mart.parquet (week 4 output)
+
+Parameters: SMA_FAST, SMA_SLOW, VOL_WINDOW, VOL_THRESHOLD, COST_BPS
+
+Code/Notebooks
+
+Week-5 notebook: Signals v2 → Backtest → Trades → Tuning → Sanity checks → Power BI ingest notes
+
+What I built
+
+Signals v2 (adds sma_fast, sma_slow, volatility regime, long_rule, exit_rule)
+
+Backtest (after-cost, next-bar) → per-ticker dailies with: date, ticker, return1, position, ret_after_cost, equity
+
+Trades log with simple entry/exit cost model (bps charged both sides)
+
+KPI summary by ticker: CAGR %, Sharpe (annual), Max DD %, Win Rate %
+
+Grid tuning (optional) across [sma_fast, sma_slow, vol_threshold] → lake/tuning_mart.parquet
+
+Artifacts written
+
+lake/signals_mart_v2.parquet
+
+lake/backtest_mart_v2/<TICKER>.parquet
+
+lake/backtest_mart_v2/_summary.parquet
+
+lake/trades_mart_v1/<TICKER>.parquet
+
+lake/tuning_mart.parquet (optional)
+
+Sanity checks
+
+Columns present & non-empty; dates parse to datetime; per-ticker row counts > 0
+
+KPI parity (sample ticker) vs zero-cost baseline within small tolerance
+
+Tuning table contains expected columns and >0 rows when enabled
+
+Power BI
+
+Model: single-direction relationships; Date[Date] time spine; Ticker dimension
+
+Measures created (all based on week-5 ingests): Daily Return, Equity (cum), Cumulative Return %, CAGR %, Sharpe (annual), Win Rate %, Max DD %, Latest Close
+
+Pages built: Price vs SMAs, Backtest, Summary/Compare
+
+Heatmap: diverging colors centered at 0.00; Month sort fixed via Month Number sort-by
+
+Notable fixes
+
+Robust path discovery to correct accidental notebooks\lake\ issues
+
+Loader that prefers in-memory per_ticker_daily, falls back to Parquet (skips _summary)
+
+Grid tuning error (“too many values to unpack”) resolved by collapsing to a single for f in GRID_FAST / for s in GRID_SLOW / for v in GRID_VOL loop and returning the KPI summary per combo
+
+DAX: Latest Close implemented with lastDate = MAX('Date'[Date]) then CALCULATE(MAX(backtest_mart_v2[close]), 'Date'[Date] = lastDate)
+
+Status: ✅ Shipped (Power BI workbook updated and refreshed)
