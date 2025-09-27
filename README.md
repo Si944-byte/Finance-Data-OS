@@ -184,6 +184,9 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log
 Build Log - Week 4
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk4
 
+Build Log - Week 5
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk5
+
 ---
 
 🗺️ Week 5 — What's New
@@ -191,8 +194,6 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log
 Costs, Controls & Tuning
 
 Goal: Produce after-cost strategy returns, KPIs, an optional parameter grid search, and a refreshed Power BI model.
-
-
 
 Outputs: (written to lake\)
 
