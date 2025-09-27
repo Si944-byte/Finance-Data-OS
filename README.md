@@ -27,7 +27,7 @@ artifacts/  # Power BI files, exported charts
 
 Build Logs/ # Weekly build logs
 
-notebooks/  # Jupyter notebooks (Week 1, Week 2, Week 3, Week 4,....)
+notebooks/  # Jupyter notebooks (Week 1, Week 2, etc....)
 
 ---
 
@@ -126,6 +126,26 @@ Week 4 – Signals, Backtest & 3-Page Power BI ✅
     - Backtest: Strategy Equity Curve, Daily Return distribution, Monthly Return Heatmap
 
     - Summary: KPI table (CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %), Normalized Close comparison, bar chart with conditional                 formatting on Avg Return %
+   
+  Week 5 – Costs, Controls & Tuning ✅  
+
+  Objectives
+
+    1. Upgrade signals → Signals v2 (SMA fast/slow + volatility filter).
+
+    2. Run next-bar, after-cost backtest (per-side bps on entry & exit).
+
+    3. Write per-ticker daily files and KPI summary parquet.
+
+    4. Log trades with a simple cost model.
+
+    5. (Optional) Grid tuning across SMA/vol parameters; persist results.
+
+    6. Add sanity checks (schema, dates, KPIs) for reproducibility.
+
+    7. Build/refresh Power BI model & visuals (3 pages).
+
+    8. Ship release notes + artifacts.
 
 ---
 
@@ -166,100 +186,65 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log
 
 ---
 
-🗺️ Week 4 — What's New
+🗺️ Week 5 — What's New
 
-1) Make a “signals” dataset (when to be in or out)
+Costs, Controls & Tuning
 
-  SMA50: the average closing price over the last 50 days. It smooths the price line.
+Goal: Produce after-cost strategy returns, KPIs, an optional parameter grid search, and a refreshed Power BI model.
 
-  Vol20: the typical day-to-day wiggle over the last 20 days (a basic volatility number).
 
-Rules
 
-  Go long (be in the stock) when the short average (SMA10) is above the long average (SMA50) and volatility is low.
+Outputs: (written to lake\)
 
-  Exit (be out) when SMA10 falls below SMA50 or volatility is high.
+  signals_mart_v2.parquet — ticker, date, close, sma_fast, sma_slow, vol20, long_rule, exit_rule, regime_low_vol
 
-  Save this table as a file: lake/signals_mart.parquet.
+  backtest_mart_v2\*.parquet — per-ticker dailies: date, ticker, return1, position, ret_after_cost, equity, close
 
-  Why: This gives Power BI a clean, ready-to-use table that says “buy” or “exit” each day.
+  backtest_mart_v2\_summary.parquet — by-ticker KPIs: CAGR %, Sharpe, Max DD %, Win Rate %
 
-2) Do a simple backtest (see how that rule would have done)
+  trades_mart_v1\*.parquet — trade events with cost model fields
 
-  “Next-day” rule: If yesterday said “go long,” we enter today. If yesterday said “exit,” we get out today. (Prevents cheating by using future info.)
+  tuning_mart.parquet (optional) — KPI summary per [sma_fast, sma_slow, vol_threshold] combo
 
-  Daily strategy return:
+How to reproduce:
 
-  If we’re in the position, it equals the stock’s daily return.
+  1. Open the Week-5 notebook from the repo’s notebooks/ folder.
 
-  If we’re out, it’s zero.
+  2. Run Path Discovery (auto-finds nearest lake\ with expected files).
 
-  Equity curve: Start at $1.00 and grow it by the daily strategy returns to see how the account would have changed over time.
+  3. Run Parameters & Helpers (set SMA/VOL/COST_BPS).
 
-  Save results:
+  4. Execute Build Signals v2 → Run Backtest (after-cost).
 
-  One file per ticker with daily equity etc.: lake/backtest_mart/<TICKER>.parquet
+  5. Execute Trades Log (optional, writes per-ticker parquet).
 
-  A summary table with key stats (KPIs): lake/backtest_mart/_summary.parquet
+  6. Execute Tuning (optional grid search; writes tuning_mart.parquet).
 
-  CAGR = average yearly growth
+  7. Run Sanity Checks (shape, columns, KPIs within tolerance).
 
-  Sharpe = return compared to volatility (higher is better)
+  8.In Power BI, connect to:
+   backtest_mart_v2\_summary.parquet
+   Folder backtest_mart_v2\ (per-ticker dailies)
+   signals_mart_v2.parquet
+   (Optional) tuning_mart.parquet
 
-  Max Drawdown = worst peak-to-valley drop (more negative is worse)
+  9. Confirm model relationships: Date[Date] → * single-direction, Ticker[ticker] → * single-direction to each mart.
 
-  Win rate = % of up days while in the trade
+  10. Create/refresh measures (DAX) using this week’s ingests:
+    Daily Return = SUM(backtest_mart_v2[ret_after_cost])
+    Equity (cum) via PRODUCTX over selected dates
+    Cumulative Return % = [Equity (cum)] - 1
+    CAGR % using years = DISTINCTCOUNT('Date'[Date]) / 252
+    Sharpe (annual) = AVERAGEX(...) / STDEVX.P(...) * SQRT(252)
+    Win Rate % = COUNTROWS(Return>0) / COUNTROWS(Date)
+    Max DD % (running high vs equity; returns negative %)
+    Latest Close = VAR lastDate = MAX('Date'[Date]) RETURN CALCULATE(MAX(backtest_mart_v2[close]), 'Date'[Date] = lastDate)
 
-  Why: This shows if the rule adds value vs. buy-and-hold.
-
-3) Connect everything in Power BI
-
-  Import the three parquet files using the full Windows paths so refresh is reliable.
-
-  Tables in the model:
-
-  Date (drives time), Ticker (AAPL/MSFT/…), ohlcv_features (prices & features),
-
-  signals_mart (buy/exit info), backtest_mart (daily strategy equity), _summary (KPIs).
-
-  Use one-way relationships from Date (and Ticker) into the other tables. Date is the “spine.”
-
-  Why: Keeps filtering simple and avoids model glitches.
-
-4) Build the 3 report pages
-
-  Page 1 — Signals
-
-  Line chart: Close price vs SMA50 (50-day).
-
-  KPI cards: Latest Close, Latest SMA50, Close vs SMA50 %.
-
-  Dynamic title: shows selected ticker + date range.
-
-  Page 2 — Backtest
-
-  Equity curve (how $1 grew under the rule).
+Notes & assumptions:
   
-  Histogram of daily strategy returns.
-
-  Monthly return heatmap (which months/years were strong or weak).
-
-  Page 3 — Summary
-
-  KPI table: CAGR, Sharpe, Max DD, Win rate, Positive Day %, Latest Close, Cumulative Return %.
-
-  Normalized Close comparison (all tickers start at 1.0 to compare moves).
-
-  Bar chart of Avg Return % with conditional colors to highlight standouts.
-
-5) Final polish
-
-  Make numbers consistent (decimals, % signs), tidy legends and line thickness.
-
-  Add a “Reset” bookmark to clear slicers.
-
-  Quick QA pass: do cards, tables, and charts match the data?
- 
+  - Next-bar execution; per-side COST_BPS charged on both entry and exit
+  - No dividends/fees/borrow modeled unless in source price; no slippage beyond fixed bps
+  - Results are illustrative; use for research only
 ---
 
 ### 🧠 What I Learned
@@ -302,30 +287,50 @@ Precomputing MAs/volatility and boolean rules in parquet keeps the report fast a
 - Operational detail matters. Importing parquet via full file paths on Windows made refresh reliable; consistent formatting (decimals, % signs) made the report feel “finished.”
 - Small UX touches help. Dynamic page titles (ticker + date range) and a Reset bookmark improve readability and exploration
 
+**Week 5 – Costs, Controls, Tuning & Power BI** 
+1) Paths & environments must be bulletproof.
+We hit “file not found” due to a stray notebooks\lake\ and mixed slashes. Fix: a robust path discovery helper that walks parents to the first folder that actually contains expected parquet names, and loudly warns if a shadow lake exists under notebooks.
+2) Respect your schema contract—but be tolerant.
+Columns varied between steps (ret_after_cost vs earlier names). The loader now:
+  - Prefers in-memory per_ticker_daily when available (same session).
+  - Else reads parquet excluding _summary, accepting common column variants, then normalizes to date, ticker, return1, position.
+3) Small API clarity prevents big breakage.
+Errors like “trades_from_position not defined” came from mismatched cell ordering/names. We centralized helpers (build_signals_v2, run_backtest_with_costs, kpi, load_per_ticker_daily) and called them consistently.
+4) Grid search pitfalls.
+The initial tuning loop threw “too many values to unpack” and undefined GRID_FAST. Resolution: define grid lists up front; use a single nested loop (for f in GRID_FAST / for s in GRID_SLOW / for v in GRID_VOL) and return KPI() per combo. Keep the function pure (input fm → output summary rows).
+5) Sanity checks save time.
+A couple asserts caught issues early: date parsing, empty tables, KPI drift (CAGR mismatch). For single-element Series, cast with .iloc[0] to avoid future pandas warnings.
+6) DAX should mirror the data you actually ingested.
+  -We removed references to nonexistent columns (e.g., sma50, rev_strat), anchored measures to Week-5 fields, and fixed:
+    - Latest Close using lastDate = MAX('Date'[Date]) then CALCULATE(MAX(backtest_mart_v2[close]), 'Date'[Date] = lastDate).
+    - Monthly heatmap: diverging CF center = 0.00, Month sorted by Month Number.
+7) Modeling discipline in Power BI.
+Kept single-direction relationships (Date/Ticker → facts) to avoid filter ambiguity. The Normalized Close issue for AAPL was traced to filtering/measure scope; verifying ALLSELECTED context and slicers fixed it.
+8) UX polish matters.
+Consistent number formats, legible line weights, clean slicers, and concise cards made the 3 pages read clearly. Heatmap totals and centered color scale improved interpretation at a glance.
+
+Main issues this week (and how we solved them)
+
+❌ Lake paths resolving to notebooks\lake → ✅ parent-walk path discovery + warning if duplicate lake exists.
+
+❌ Missing parquet columns / name drift → ✅ tolerant loader + normalized column names.
+
+❌ Undefined helpers / variable names (per_ticker_daily, GRID_FAST) → ✅ consolidated helper section + explicit grid lists.
+
+❌ Grid tuning “too many values to unpack” → ✅ simplified nested loops; return KPI summary rows.
+
+❌ KPI assert mismatch (Series casting) → ✅ use .iloc[0] and numeric casts.
+
+❌ DAX measures referring to non-ingested fields → ✅ measures rewritten to Week-5 fields only (e.g., ret_after_cost, close).
+
+❌ Normalized Close missing one ticker → ✅ check slicers/filters, ensure measure uses proper filter context, confirm Date–Ticker relationships.
 ---
 
 ### 🗂️ Artifacts (Week 4: current week)
 
-lake/signals_mart.parquet — daily features + signals (sma10, sma50, vol20, long_rule, exit_rule, flags).
-
-lake/backtest_mart/AAPL.parquet
-
-lake/backtest_mart/MSFT.parquet
-
-lake/backtest_mart/NVDA.parquet
-
-lake/backtest_mart/TSLA.parquet — per-ticker daily equity/position/strategy returns.
-
-lake/backtest_mart/_summary.parquet — per-ticker KPIs (CAGR, Sharpe, Max DD, Win rate, etc)
-
 Power BI Dashboard: 
-https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week4/Finance-Data-OS-Week%204.pbix
 
-![Dashboard #1](https://github.com/user-attachments/assets/959a34f2-4d5d-4bd1-8ec6-13dbd1d76b5a)
 
-![Dashboard #2](https://github.com/user-attachments/assets/1bdff490-beee-4f36-9f0f-a38d17ffce64)
-
-![Dashboard #3](https://github.com/user-attachments/assets/18e7e505-e70a-4bf5-8408-eaee79709615)
 
 ---
 
