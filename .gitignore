@@ -13,3 +13,7 @@ mart/
 # OS/editor
 .DS_Store
 Thumbs.db
+
+lake/_scratch_week6/
+**/*.manifest.json
+.ipynb_checkpoints/
