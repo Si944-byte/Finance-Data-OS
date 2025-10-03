@@ -244,6 +244,7 @@ Build Log - Week 5
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk5
 
 Build Log - Week 6
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk6
 
 ---
 
@@ -338,23 +339,65 @@ Main issues this week (and how we solved them)
 
 ❌ DAX measures referring to non-ingested fields → ✅ measures rewritten to Week-5 fields only (e.g., ret_after_cost, close).
 
+**Week 6 – Rolling Metrics, Cost Modeling and Cleaner Pipeline**
+Technical
+
+  Costs must be tied to position toggles
+  Applying per-toggle costs (entry/exit) eliminates ambiguous “sign” logic and makes the invariant testable: ret_after_cost <= return1 in-market, and ≈0 when flat & not toggling.
+
+  Position derivation is a first-class transform
+  Deriving position from long_rule/exit_rule (cumsum, clip 0..1) stabilized downstream metrics and made tests deterministic.
+
+  Rolling metrics are easiest from equity
+  Daily ret_after_cost → equity → drawdown / rolling Sharpe / rolling window CAGR. This avoids subtle compounding mistakes when rolling on raw returns.
+
+  Schemas + manifests pay off
+  Pandera checks caught dtype/column drift early; writing manifest.json with config_hash gave provenance for every parquet.
+
+  Testing from notebooks vs CLI
+  Running pytest inside the notebook is fine, but keeping a repo-root command (set PYTHONPATH=src && python -m pytest -q tests) ensured imports and relative paths match CI.
+
+  Version pinning matters
+  numpy==1.26.* and pandera==0.17.* prevented the np.string_ / SchemaModel surprises seen on 2.x / newer Pandera.
+
+  Path hygiene
+  The “double notebooks” path issue surfaced why all code should use fdos.paths + Path.cwd() guards; fixtures live under tests/fixtures/ to be repo-relative.
+
+Process / Analytics
+
+  Parity fixtures calm the BI delta anxiety
+  Freezes last week’s KPIs to detect “real” vs “tooling” changes.
+
+  Small, focused tests > broad assertions
+  The SMA “head NaNs only” and cost-sign invariants were quick to run and highly diagnostic.
+
+  Communicate visual changes in the About page
+  Users accept KPI drift when the model change and test protection are explained up front.
+
+Keep / Change
+
+  Keep: manifests, parity test, pinning, BI query discipline (disable old, don’t delete).
+
+  Change: add proper logging + run IDs; lift tests into CI; add a slim CLI for reproducible runs.
+
+  Week-7 Preview 
+
+    CLI (fdos run <stage> --config ...) with logging & run IDs.
+
+    Incremental build --since to speed dev loops.
+
+    Expand parity fixtures to include daily spot checks (not just summary).
+
+    Add a basic parameter report (top SMA grid combos per ticker) into PBIX.
+
 ---
 
-### 🗂️ Artifacts (Week 5: current week)
+### 🗂️ Artifacts (Week 6: current week)
 
-Power BI Dashboard: 
+Week 6 - Notebook
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/notebooks/week_6_sanity.ipynb
 
-Page 1:
-![Screenshot 2025-09-27 184914](https://github.com/user-attachments/assets/195f58aa-99eb-4362-873c-dcd42299d720)
 
-Page 2:
-![Screenshot 2025-09-27 184950](https://github.com/user-attachments/assets/c2e4a819-1f01-4491-8a9d-101e920785f1)
-
-Page 3: 
-![Screenshot 2025-09-27 185251](https://github.com/user-attachments/assets/bfc30030-28bb-43ef-8d4c-aa75d3734349)
-
-Page 4:
-![Screenshot 2025-09-27 191245](https://github.com/user-attachments/assets/6286041c-4040-4ed7-94f0-2aff1f49e51a)
 
 ---
 
