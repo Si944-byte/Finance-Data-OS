@@ -147,7 +147,7 @@ Week 4 – Signals, Backtest & 3-Page Power BI ✅
 
     8. Ship release notes + artifacts.
 
-  Week 6 - 
+  Week 6 - Rolling Metrics, Cost Modeling and Cleaner Pipeline ✅
 
   Objectives
 
