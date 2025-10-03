@@ -147,6 +147,62 @@ Week 4 – Signals, Backtest & 3-Page Power BI ✅
 
     8. Ship release notes + artifacts.
 
+  Week 6 - 
+
+  Objectives
+
+    - Add rolling risk/return to daily backtest.
+
+    - Make trade costs unambiguous and testable.
+
+    - Lock reproducibility (schemas, manifests, parity tests).
+
+    - Refresh the Power BI report to v3 marts.
+
+Scope & Tasks
+
+  1. Signals & Trades
+
+    - build_signals_v2 (fast/slow SMA + vol rules)
+    - trades_from_position
+      - derive position from long_rule/exit_rule when absent
+      - apply one-leg cost on every toggle (entry or exit)
+      - compute pnl_pct, cost_pct, pnl_after_cost_pct
+      
+  2. Backtest Daily & Rolling Metrics
+
+    - run_backtest_with_costs → ret_after_cost, equity, drawdown
+    - roll_sharpe_252, roll_cagr_252
+
+  3. Summary & Tuning
+
+    - summary_v3.parquet (CAGR, Sharpe, Max DD, Win Rate, Days)
+    - tuning_mart.parquet (SMA grid → avg Sharpe table)
+
+  4. Validation & Reproducibility
+
+    - normalize_signals_columns, schema checks
+    - write_parquet_safe(..., manifest={artifact, config_hash})
+    - Tests:
+      - SMA alignment (NaN “head” only)
+      - Cost sign & flat/no-toggle ≈ 0
+      - Tiny E2E
+      - KPI parity vs Week-5 fixture
+
+  5. Power BI
+    - Point to v3 marts; keep old queries disabled for comparisons
+    - Verify 3 pages (SMAs / Backtest / Compare)
+
+Deliverables:
+
+- signals_mart_v3.parquet, backtest_daily_v3.parquet, summary_v3.parquet, tuning_mart.parquet
+
+- tests/fixtures/week5_summary.parquet (parity baseline)
+
+- Updated PBIX bound to v3
+
+- README + Week-6 Build Log + About page (v3)
+
 ---
 
 ⚡ Quick Start (Follow along with me!)
@@ -187,66 +243,23 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log
 Build Log - Week 5
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk5
 
+Build Log - Week 6
+
 ---
 
-🗺️ Week 5 — What's New
+🗺️ Week 6 — What's New
 
-Costs, Controls & Tuning
 
-Goal: Produce after-cost strategy returns, KPIs, an optional parameter grid search, and a refreshed Power BI model.
+New marts: signals_mart_v3, backtest_daily_v3, summary_v3, tuning_mart.
 
-Outputs: (written to lake\)
+Trade cost applied on every position toggle (entry & exit).
 
-  signals_mart_v2.parquet — ticker, date, close, sma_fast, sma_slow, vol20, long_rule, exit_rule, regime_low_vol
+Rolling metrics in daily output: roll_sharpe_252, roll_cagr_252.
 
-  backtest_mart_v2\*.parquet — per-ticker dailies: date, ticker, return1, position, ret_after_cost, equity, close
+Robust dtype/column validation; manifests written with artifact + config_hash.
 
-  backtest_mart_v2\_summary.parquet — by-ticker KPIs: CAGR %, Sharpe, Max DD %, Win Rate %
+Tests: SMA alignment, cost-sign behavior, tiny e2e, KPI parity vs Week-5 fixture.
 
-  trades_mart_v1\*.parquet — trade events with cost model fields
-
-  tuning_mart.parquet (optional) — KPI summary per [sma_fast, sma_slow, vol_threshold] combo
-
-How to reproduce:
-
-  1. Open the Week-5 notebook from the repo’s notebooks/ folder.
-
-  2. Run Path Discovery (auto-finds nearest lake\ with expected files).
-
-  3. Run Parameters & Helpers (set SMA/VOL/COST_BPS).
-
-  4. Execute Build Signals v2 → Run Backtest (after-cost).
-
-  5. Execute Trades Log (optional, writes per-ticker parquet).
-
-  6. Execute Tuning (optional grid search; writes tuning_mart.parquet).
-
-  7. Run Sanity Checks (shape, columns, KPIs within tolerance).
-
-  8. In Power BI, connect to:
-     backtest_mart_v2\_summary.parquet
-     Folder backtest_mart_v2\ (per-ticker dailies)
-     signals_mart_v2.parquet
-     (Optional) tuning_mart.parquet
-
-  9. Confirm model relationships: Date[Date] → * single-direction, Ticker[ticker] → * single-direction to each mart.
-
-  10. Create/refresh measures (DAX) using this week’s ingests:
-    Daily Return = SUM(backtest_mart_v2[ret_after_cost])
-    Equity (cum) via PRODUCTX over selected dates
-    Cumulative Return % = [Equity (cum)] - 1
-    CAGR % using years = DISTINCTCOUNT('Date'[Date]) / 252
-    Sharpe (annual) = AVERAGEX(...) / STDEVX.P(...) * SQRT(252)
-    Win Rate % = COUNTROWS(Return>0) / COUNTROWS(Date)
-    Max DD % (running high vs equity; returns negative %)
-    Latest Close = VAR lastDate = MAX('Date'[Date]) RETURN CALCULATE(MAX(backtest_mart_v2[close]), 'Date'[Date] = lastDate)
-
-Notes & assumptions:
-  
-  - Next-bar execution; per-side COST_BPS charged on both entry and exit
-  - No dividends/fees/borrow modeled unless in source price; no slippage beyond fixed bps
-  - Results are illustrative; use for research only
-  - 
 ---
 
 ### 🧠 What I Learned
