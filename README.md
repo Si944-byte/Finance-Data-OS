@@ -399,16 +399,16 @@ https://github.com/Si944-byte/Finance-Data-OS/blob/main/notebooks/week_6_sanity.
 
 Dashboard Pages:
 Page 1 - Signals 
-https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/1.jpg
+![1](https://github.com/user-attachments/assets/34106477-65e4-435f-a303-340e5a376040)
 
 Page 2 - Back-test
-https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/2.jpg
+![2](https://github.com/user-attachments/assets/6e92368a-b1ee-4d58-8baf-21ccd6e11360)
 
 Page 3 - Summary Page
-https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/3.jpg
+![3](https://github.com/user-attachments/assets/c8c5e8e5-fc04-4781-9ab2-39b6e1afc079)
 
 Page 4 - About
-https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/4.jpg
+![4](https://github.com/user-attachments/assets/8500f509-fd16-422b-87ba-338b4aa37910)
 
 ---
 
