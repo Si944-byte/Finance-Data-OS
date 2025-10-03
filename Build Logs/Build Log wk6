@@ -1,0 +1,84 @@
+Run date: 2025-10-03
+Environment: Windows, Python 3.11, numpy==1.26.*, pandas 2.2.x, pandera 0.17.x
+Universe: AAPL, MSFT, NVDA, TSLA (2019-01-01 → 2025-09-05)
+Config (base.yaml highlights):
+
+sma_fast: 10, 15, 20, 25, 30
+
+sma_slow: 50, 100, 150, 200
+
+vol_window: 20 (sample)
+
+vol_threshold_pct: 15, 20, 25 (sample)
+
+costs_bps: 5
+
+Steps executed
+
+Signals (v2) → signals_mart_v3.parquet
+
+Columns: date, ticker, return1, sma_fast, sma_slow, vol20, long_rule, exit_rule, ...
+
+Backtest+Costs → backtest_daily_v3.parquet
+
+Derived position (when absent) from long_rule/exit_rule.
+
+Cost applied on position toggle; ret_after_cost computed; equity cumprod.
+
+Rolling metrics computed: roll_sharpe_252, roll_cagr_252; drawdown from equity.
+
+Summary → summary_v3.parquet
+
+KPI per ticker: CAGR %, Sharpe (annual), Max DD %, Win Rate %, Days.
+
+Tuning → tuning_mart.parquet
+
+Grid search across fast/slow; aggregate by Sharpe.
+
+Unit tests (from notebook & CLI)
+
+test_sma_alignment ✅
+
+test_cost_application_sign ✅ (in-market: ret_after_cost <= return1; flat & no toggle ≈ 0)
+
+test_e2e_small ✅
+
+test_kpi_parity ✅ (parity vs tests/fixtures/week5_summary.parquet, within tolerances)
+
+Observed KPIs (from PBIX screenshots / current run)
+
+NVDA: CAGR 33.69%, Sharpe 1.26, Win Rate 25.76%, Max DD -95.82%
+
+TSLA: Cumulative Return ~695%, Latest Close $350.84
+(AAPL/MSFT are included in PBIX; values vary with slicer.)
+
+Artifacts written (lake/)
+
+feature_mart.parquet
+
+signals_mart_v3.parquet
+
+backtest_daily_v3.parquet
+
+summary_v3.parquet
+
+tuning_mart.parquet
+Each with manifest.json containing {artifact, config_hash, created_utc}.
+
+Power BI
+
+All 3 report pages refreshed against v3 paths.
+
+Visual checks:
+
+Page 1 (SMAs): price vs fast/slow lines render for all tickers.
+
+Page 2 (Backtest): equity curve & monthly return heatmap populate; headline cards reflect summary_v3.
+
+Page 3 (Compare): normalized close + KPI matrix + Avg Daily Return bar chart.
+
+Notes / known deltas vs last week
+
+Minor KPI drifts expected due to corrected cost application, explicit position derivation, and equity-based rolling metrics.
+
+Tests lock behavior; fixture parity keeps results within tolerances.
