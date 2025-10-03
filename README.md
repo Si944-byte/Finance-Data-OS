@@ -340,8 +340,8 @@ Main issues this week (and how we solved them)
 ❌ DAX measures referring to non-ingested fields → ✅ measures rewritten to Week-5 fields only (e.g., ret_after_cost, close).
 
 **Week 6 – Rolling Metrics, Cost Modeling and Cleaner Pipeline**
-Technical
 
+Technical
   Costs must be tied to position toggles
   Applying per-toggle costs (entry/exit) eliminates ambiguous “sign” logic and makes the invariant testable: ret_after_cost <= return1 in-market, and ≈0 when flat & not toggling.
 
@@ -397,7 +397,18 @@ Keep / Change
 Week 6 - Notebook
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/notebooks/week_6_sanity.ipynb
 
+Dashboard Pages:
+Page 1 - Signals 
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/1.jpg
 
+Page 2 - Back-test
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/2.jpg
+
+Page 3 - Summary Page
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/3.jpg
+
+Page 4 - About
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/artifacts/week6/4.jpg
 
 ---
 
