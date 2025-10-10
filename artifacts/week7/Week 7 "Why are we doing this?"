@@ -1,0 +1,52 @@
+Goal
+Make backtests incremental, reproducible, and tunable so each weekly build is a small, safe step—not a full rebuild gamble.
+
+Problems we solved
+
+Full refreshes were slow and hard to compare; now --since lets us append only new rows.
+
+Outputs were “black boxes”; now manifests track counts, hashes, and timestamps next to each dataset.
+
+Parameter choices were anecdotal; now we have a tuning sweep (preview grid) that surfaces KPIs per config.
+
+Releases felt risky; now we gate them with parity checks (ΔCAGR, ΔSharpe, ΔMaxDD) vs last week.
+
+What’s new this week
+
+CLI v0.7.0: fdos run signals | backtest | trades | tune + structured run logs under ./runs/<run_id>/run.log.
+
+Incremental appends with schema validation + de-dupe on (ticker, date).
+
+Manifests for every parquet dataset (UTC timestamps).
+
+Tuning Results Power BI page (heatmap/table/bubble) to spot best fast/slow pairs per ticker.
+
+Parity script (pandas-free variant available) to compare v7 vs v6 for NVDA/TSLA.
+
+Why it matters
+
+Speed: weekly cadence stays tight; we iterate without backfilling the world.
+
+Trust: manifests + parity make diffs explainable.
+
+Focus: we spend time on strategy, not plumbing.
+
+What we deferred (intentionally)
+
+Large grid sweeps (we shipped a small preview to validate the pipeline).
+
+Automated CI release of PBIX—queued for next week along with an expanded grid and cost/vol sensitivity.
+
+How to reproduce (cheat sheet)
+
+# from repo root
+call .venv\Scripts\activate
+fdos run backtest --config configs\base.yaml --since 2024-01-01 --verbose
+fdos run trades   --config configs\base.yaml --since 2024-01-01 --verbose
+fdos run tune     --config configs\base.yaml --since 2024-01-01 --verbose
+# manifests live next to parquet in /lake; run logs in /runs/<run_id>/
+
+
+Definition of done (met)
+
+CLI runs succeed; manifests written; parity gates pass; PBIX updated with Tuning Results.
