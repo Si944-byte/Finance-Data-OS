@@ -1,0 +1,21 @@
+# Week 7 — Incremental Backtests + Tuning CLI
+
+## Key commands
+- Parity: `python scripts/compare_parity_nopandas.py lake/backtest_mart_v2 lake/backtest_daily_v3.jsonl`
+- Backtest/trades incremental:
+  - `fdos run backtest --config configs/base.yaml --since 2025-09-01 --verbose`
+  - `fdos run trades   --config configs/base.yaml --since 2025-09-01 --verbose`
+
+## Evidence
+- Run IDs:
+  - backtest: runs\20251010-20xxxx
+  - trades:   runs\20251010-20yyyy
+- Manifests:
+  - `lake/backtest_daily_v3.parquet.manifest.json` → appended_rows: 4 → 0
+  - `lake/trades_v3.parquet.manifest.json`         → appended_rows: 4 → 0
+- Parity: see `runs\...\parity.txt` (PASS)
+
+## Durations
+- Backtest: <copy from run.log>
+- Trades:   <copy from run.log>
+- Tuning:   <if ran today, copy>
