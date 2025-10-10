@@ -47,7 +47,37 @@ Week 5 – Costs, Controls & Tuning ✅
 
 Week 6 - Rolling Metrics, Cost Modeling and Cleaner Pipeline ✅
 
-Week 7 -
+Week 7 - Ship a reliable, incremental workflow for signals/backtests/trades/tuning with clear manifests, parity validation, and a Power BI page for tuning results.
+
+Scope (what’s in)
+
+fdos CLI with subcommands: signals, backtest, trades, tune
+
+Incremental runs via --since with append-only writes and (ticker, date) de-dupe
+
+Per-dataset *.manifest.json (row counts, timestamps, config hash)
+
+Parity check (v7 vs v6) on NVDA/TSLA (CAGR, Sharpe, MaxDD)
+
+Power BI page: Tuning Results (heatmap + top configs + optional scatter)
+
+CLI v0.7.0 (fdos) with shared options --config --since --verbose
+
+Lake outputs
+
+lake/backtest_daily_v3.parquet (+ .manifest.json)
+
+lake/trades_v3.parquet (+ .manifest.json)
+
+lake/tuning_mart.parquet (+ .manifest.json)
+
+Parity script: scripts/compare_parity_nopandas.py
+
+Run logs: ./runs/<run_id>/run.log
+
+Power BI: “Tuning Results” page added to PBIX
+
+Docs: “About this report (Week-7)” section
 
 ---
 
