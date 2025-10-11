@@ -47,7 +47,7 @@ Week 5 – Costs, Controls & Tuning ✅
 
 Week 6 - Rolling Metrics, Cost Modeling and Cleaner Pipeline ✅
 
-Week 7 - Ship a reliable, incremental workflow for signals/backtests/trades/tuning with clear manifests, parity validation, and a Power BI page for tuning results.
+Week 7 - Ship a reliable, incremental workflow for signals/backtests/trades/tuning with clear manifests, parity validation, and a Power BI page for tuning results.✅
 
 Scope (what’s in)
 
@@ -123,7 +123,7 @@ Build Log - Week 6
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk6
 
 Build Log - Week 7
-
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk7
 
 ---
 
@@ -179,26 +179,27 @@ Docs: new “About this report (Week-7)” + quickstart commands
   
 ---
 
-### 🗂️ Artifacts (Week 6: current week)
+### 🗂️ Artifacts (Week 7: current week)
 
 Week 7 - Notebook
-
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/notebooks/Week_7_Walkthrough
 
 Dashboard Pages:
-Page 1 - Signals 
 
+Page 1 - Signals 
+![Screenshot 2025-10-10 163249](https://github.com/user-attachments/assets/c55575b3-2426-4515-9315-4b44e530b91b)
 
 Page 2 - Back-test
-
+![Screenshot 2025-10-10 163411](https://github.com/user-attachments/assets/6bf09593-5574-48e9-a919-5a92af75c5de)
 
 Page 3 - Tuning Results
-
+![Screenshot 2025-10-10 172348](https://github.com/user-attachments/assets/0cbdcce3-1176-4647-8ec2-dc4f62ebf5d9)
 
 Page 4 - Summary Page
-
+![Screenshot 2025-10-10 163644](https://github.com/user-attachments/assets/8c5070c5-aef8-4153-8586-46de508dcb94)
 
 Page 5 - About Page
-
+![Screenshot 2025-10-10 195946](https://github.com/user-attachments/assets/bc3f640b-efe8-4e91-9cf6-9bca3383407d)
 
 ---
 
