@@ -1,0 +1,182 @@
+Week 7 Walkthrough — Incremental Backtests + Tuning CLI
+
+Goal: run the Week-7 pipeline end-to-end (signals → backtest → trades → tuning), verify manifests & parity, and refresh the PBIX Tuning Results page.
+Note: This week ships without a notebook; this markdown is your step-by-step guide.
+
+0) Setup
+:: from repo root (Windows)
+py -m venv .venv
+call .venv\Scripts\activate
+python -m pip install --upgrade pip
+
+:: install the project (editable) + deps
+pip install -e .
+
+
+Sanity check:
+
+fdos --help
+fdos run backtest --help
+
+1) Configuration
+
+Edit configs\base.yaml so the tickers & defaults match your PBIX:
+
+tickers: ["AAPL", "MSFT", "NVDA", "TSLA"]
+since: "2024-01-01"
+cost_bps: 0
+vol_window: 20
+vol_threshold_pct: 50
+
+2) Run the pipeline (incremental)
+:: Signals
+fdos run signals  --config configs\base.yaml --since 2024-01-01 --verbose
+
+:: Backtest (v3)
+fdos run backtest --config configs\base.yaml --since 2024-01-01 --verbose
+
+:: Trades (v3)
+fdos run trades   --config configs\base.yaml --since 2024-01-01 --verbose
+
+
+Manifests live next to the lake files. Inspect them:
+
+type lake\backtest_daily_v3.parquet.manifest.json
+type lake\trades_v3.parquet.manifest.json
+
+
+You should see keys like existing_rows, appended_rows, final_rows, ts_utc, dataset_path.
+
+Idempotency smoke:
+
+fdos run backtest --config configs\base.yaml --since 2024-01-01 --verbose
+fdos run trades   --config configs\base.yaml --since 2024-01-01 --verbose
+
+type lake\backtest_daily_v3.parquet.manifest.json | findstr /c:"appended_rows"
+type lake\trades_v3.parquet.manifest.json         | findstr /c:"appended_rows"
+
+
+Expected: appended_rows = 0 on the immediate re-run.
+
+3) Tuning (preview grid)
+
+If your CLI supports tuning directly, run:
+
+fdos run tune --config configs\base.yaml --since 2024-01-01 --verbose
+
+
+Result should write/append:
+
+lake\tuning_mart.parquet
+
+lake\tuning_mart.parquet.manifest.json
+
+(If your grid is sparse this week, that’s fine—page is still functional.)
+
+4) Parity (v7 vs v6) — QA gate
+
+Use the pandas-free script (works on Windows without NumPy wheels). Paths below match the common layout:
+
+v6: lake\backtest_mart_v2\ (folder of per-ticker parquet)
+
+v7: lake\backtest_daily_v3.jsonl or the parquet you generated
+
+Run:
+
+python scripts\compare_parity_nopandas.py lake\backtest_mart_v2 lake\backtest_daily_v3.jsonl
+
+
+PASS criteria:
+
+|ΔCAGR| < 0.5 pp
+
+|ΔSharpe| < 0.05
+
+|ΔMaxDD| < 0.5 pp
+
+If v7 is shorter in time than v6, rebuild v7 to cover full history or filter the window to align ranges.
+
+5) Power BI refresh
+
+Open the Week-7 PBIX.
+
+Verify Data source points to your local lake\*.parquet (and/or JSONL where used).
+
+Click Refresh.
+
+On Tuning Results:
+
+Heatmap: Sharpe by slow × fast
+
+Slicers: ticker, vol_window, vol_threshold_pct, cost_bps
+
+Table: Top N configs by Sharpe
+
+(Optional) Bubble: MaxDD % vs Sharpe, size = Days, color = ticker
+
+Add/update the About (Week-7) text (you already drafted it).
+
+6) Version bump & tagging
+:: bump version
+notepad pyproject.toml
+:: [project] version = "0.7.0"
+
+python -m pip install -e .
+
+git add -A
+git commit -m "v0.7.0: Week 7 – incremental backtests, tuning CLI, manifests"
+git tag -a v0.7.0 -m "Release v0.7.0"
+git push origin main --tags
+
+
+Create a GitHub Release for v0.7.0 and attach:
+
+PBIX (Week-7)
+
+runs/<latest-run-id>/run.log (or a zip of the week’s runs)
+
+Lake manifests (backtest, trades, tuning)
+
+(Optional) parity output as parity.txt
+
+7) Troubleshooting quick refs
+
+Pandas/Numpy import errors on Windows
+Use the no-pandas parity script (already included). If you need pandas, create a Python 3.12 venv where wheels exist.
+
+Parity shows zeros
+Check that NVDA/TSLA exist in both v6 and v7 files and that v7 has real rows (not 4 placeholder rows).
+
+Idempotency failing
+Confirm (ticker, date) de-dupe is active and manifests show appended_rows = 0 on immediate re-run.
+
+PBIX visuals empty
+Verify lake file paths; refresh; confirm slicers are not over-restrictive (try “Select all”).
+
+8) What’s included (Week-7)
+
+CLI v0.7.0: fdos run signals|backtest|trades|tune --since ... --verbose
+
+Lake marts (+ manifests):
+
+lake/backtest_daily_v3.parquet
+
+lake/trades_v3.parquet
+
+lake/tuning_mart.parquet
+
+Parity script: scripts/compare_parity_nopandas.py
+
+Runs: ./runs/<run_id>/run.log
+
+PBIX pages: Signals, Backtest, Summary/Compare, Tuning Results, About
+
+9) One-page verification (copy into build log)
+✔ CLI help works (fdos --help, subcommands --help)
+✔ Signals/backtest/trades ran with --since (see runs/<id>/run.log)
+✔ Manifests written (existing_rows / appended_rows / final_rows / ts_utc)
+✔ Idempotency: appended_rows = 0 on immediate re-run
+✔ Tuning mart exists (tuning_mart.parquet + manifest)
+✔ Parity PASS: NVDA/TSLA within thresholds
+✔ PBIX refreshed, Tuning Results page shows heatmap + Top N table
+✔ Version bumped to 0.7.0 & release tagged
