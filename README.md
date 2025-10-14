@@ -1,7 +1,5 @@
 # Finance Data OS
 
-[![CI](https://github.com/Si944-byte/Finance-Data-OS/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Si944-byte/Finance-Data-OS/actions/workflows/ci.yml)
-
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)  
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)  
