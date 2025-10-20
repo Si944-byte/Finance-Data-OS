@@ -1,0 +1,22 @@
+Goal
+  Turn last week’s working pipeline into something scalable and safe: bigger sweeps, automatic checks, and predictable outputs.
+
+Problems we’re addressing
+
+  Manual publishing/checks don’t scale → add CI to run tests & parity and save artifacts.
+
+  Tuning coverage too thin → expand grid with explicit guards to control cost.
+
+  Occasional nondeterminism → tighten seeds, ordering, and schema checks.
+
+  Performance dips in tuning → switch to batched Parquet I/O + basic parallelism where safe.
+
+What “good” looks like by Friday
+
+  fdos run tune completes with >300 combos guarded (or a smaller preview behind --max-combos)
+
+  CI run is green: tests pass, parity passes, artifacts uploaded (PBIX, manifests, run logs)
+
+  PBIX “Tuning Results” shows meaningful slicers for vol/cost and a clear top-configs table
+
+  Tagged v0.8.0 with build log and release notes
