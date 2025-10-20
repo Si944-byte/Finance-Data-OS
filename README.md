@@ -161,6 +161,7 @@ Build Log - Week 7
 https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk7
 
 Build Log - Week 8
+https://github.com/Si944-byte/Finance-Data-OS/blob/main/Build%20Logs/Build%20Log%20wk8
 
 ---
 
@@ -204,7 +205,7 @@ Build Log - Week 8
 
 ---
 
-### 🗂️ Artifacts (Week 7: current week)
+### 🗂️ Artifacts (Week 8: current week)
 
 Dashboard Pages:
 
@@ -215,12 +216,13 @@ Page 2 - Back-test
 ![Screenshot 2025-10-10 163411](https://github.com/user-attachments/assets/6bf09593-5574-48e9-a919-5a92af75c5de)
 
 Page 3 - Tuning Results
-
+![Screenshot 2025-10-20 140102](https://github.com/user-attachments/assets/254177a2-c4cb-4ecb-8631-e3b88b4adb3c)
 
 Page 4 - Summary Page
 ![Screenshot 2025-10-10 163644](https://github.com/user-attachments/assets/8c5070c5-aef8-4153-8586-46de508dcb94)
 
 Page 5 - About Page
+![Screenshot 2025-10-20 183211](https://github.com/user-attachments/assets/ef5bec65-22db-4872-99e3-20d487401d94)
 
 
 ---
