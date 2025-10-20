@@ -1,72 +1,41 @@
-Summary
+# Week 8 Build Log — Scaling Sweeps, CI, and Hardening (v0.8.0)
 
-  Shipped a deterministic tuning pipeline + Power BI “Tuning Results” page. CLI runs parameter sweeps, writes shards to a Parquet “Tuning Mart”, and visuals light up without schema/agg errors.
+## Dates
 
-Artifacts
+## Commands (ground truth)
+# env
+call .venv\Scripts\activate
+pip install -e .
 
-  - CLI: python -m fdos.cli tune
+# tuning (expanded grid; guarded)
+fdos run tune --config configs\base.yaml --since 2024-01-01 --max-combos 300 --allow-large --verbose
 
-  - Engine: fdos/tuning_engine.py
+# backtest/trades incremental smoke (recent window)
+set SINCE=2025-09-01
+fdos run backtest --config configs\base.yaml --since %SINCE% --verbose
+fdos run trades   --config configs\base.yaml --since %SINCE% --verbose
 
-  - Config: configs/base.yaml
+# parity (v8 vs v7) – NVDA/TSLA
+python scripts/compare_parity_nopandas.py lake/backtest_mart_v2 lake/backtest_daily_v3.jsonl > runs\%DATE%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%\parity.txt
 
-  - Dataset: lake/tuning_mart.parquet/tuning-*.parquet
+## Run IDs
+- tune: runs\YYYYMMDD-HHMMSS
+- backtest: runs\YYYYMMDD-HHMMSS
+- trades: runs\YYYYMMDD-HHMMSS
 
-  - BI: Tuning Results page (cards, heatmap, scatter, table)
+## Manifests (spot check)
+- lake\tuning_mart.parquet.manifest.json → appended_rows: ___, final_rows: ___
+- lake\backtest_daily_v3.parquet.manifest.json → appended_rows: ___ → 0 on re-run
+- lake\trades_v3.parquet.manifest.json → appended_rows: ___ → 0 on re-run
 
-What changed (code)
+## Parity (v8 vs v7)
+- NVDA: ΔCAGR=__, ΔSharpe=__, ΔMaxDD=__
+- TSLA: ΔCAGR=__, ΔSharpe=__, ΔMaxDD=__
+Thresholds: |ΔCAGR| < 0.5 pp, |ΔSharpe| < 0.05, |ΔMaxDD| < 0.5 pp → RESULT: PASS/FAIL
 
-  - cli.py: Typer command with --config --since --max-combos --seed --batch-rows --workers --parallel-by --verbose; proper hand-off; surfaced real errors.
+## PBIX
+- Refreshed “Tuning Results”; slicers populated for vol_window/vol_threshold_pct/cost_bps
+- Screenshot(s): /docs/img/week8_tuning_heatmap.png
 
-  - tuning_engine.py: Locked schema, 0-row seed file, table conversion once, ds.write_dataset(..., basename_template="tuning-{i:06d}.parquet") (no schema= arg), alias-tolerant getters, deterministic placeholder KPIs.
-
-  - base.yaml: canonical keys and nesting:
-
-grids:
-  tickers: ['AAPL','MSFT','NVDA','TSLA']
-  fast: [25,50]
-  slow: [100,200]
-  vol: { vol_window: [20,25,30], vol_threshold_pct: [0.2,0.5] }
-  cost_bps: [0,5]
-  seed: 42
-
-Key fixes (the ones that mattered)
-
-  - basename_template did not contain '{i}' → use "tuning-{i:06d}.parquet".
-
-  - ParquetWriter(... multiple values for 'schema') → build Table with schema; don’t pass schema= to write_dataset.
-
-  - KeyError: 'vol' / 'cost_bps' → correct YAML keys + alias-friendly loaders.
-
-  - FileExistsError on mkdir → exist_ok=True.
-
-  - Windows CMD multi-line quirks → use ^ or a single-line command.
-
-Final run (reference)
-python -m fdos.cli tune ^
-  --config configs\base.yaml ^
-  --since 2024-01-01 ^
-  --max-combos 300 ^
-  --seed 42 ^
-  --workers 1 ^
-  --parallel-by ticker ^
-  --batch-rows 10000 ^
-  --verbose
-
-Verification checklist
-
-  - Directory contains tuning-000000.parquet (0-row seed) + data shards.
-
-  - Console shows combos=... and wrote <N> rows -> lake\tuning_mart.parquet.
-
-  - Power BI page renders (no field/agg errors); slicers (ticker/vol/cost) update visuals.
-
-  - Re-run with same --seed yields same ordering.
-
-Known gaps / next
-
-  - KPIs are synthetic (swap to real in Week 9).
-
-  - Add date partitioning + stability charts after real KPIs.
-
-Thinking
+## Notes / Issues
+- …
